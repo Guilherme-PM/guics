@@ -1,0 +1,63 @@
+/* Configuração geral */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f2fff2; /* Cor de fundo suave, baseada no verde claro da logo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  background-color: #ffffff; /* Fundo branco para contraste */
+  border: 2px solid #a2d5a2; /* Borda com o tom verde da logo */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px 30px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #6cae6c; /* Verde mais escuro da logo */
+  font-size: 24px;
+}
+
+form div {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #6cae6c; /* Verde mais escuro */
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #a2d5a2; /* Borda verde claro */
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #6cae6c; /* Verde mais escuro da logo */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #5d9b5d; /* Cor levemente mais escura no hover */
+}

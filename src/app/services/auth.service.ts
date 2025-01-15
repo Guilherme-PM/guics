@@ -5,11 +5,11 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = environment.apiUrl + 'Authentication/Login';
-  // private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(private http: HttpClient) {}
 
@@ -18,26 +18,26 @@ export class AuthService {
       map((response) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
-          // this.loggedIn.next(true);
+          this.loggedIn.next(true);
         }
         return response;
       })
     );
   }
 
-  // logout(): void {
-  //   localStorage.removeItem('token');
-  //   this.loggedIn.next(false);
-  // }
+  logout(): void {
+    localStorage.removeItem('token');
+    this.loggedIn.next(false);
+  }
 
-  // isLoggedIn(): Observable<boolean> {
-  //   return this.loggedIn.asObservable();
-  // }
+  isLoggedIn(): Observable<boolean> {
+    return this.loggedIn.asObservable();
+  }
 
-  // hasToken(): boolean {
-  //   if (typeof window !== 'undefined' && window.localStorage) {
-  //     return !!localStorage.getItem('token');
-  //   }
-  //   return false;
-  // }
+  hasToken(): boolean {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return !!localStorage.getItem('token');
+    }
+    return false;
+  }
 }
