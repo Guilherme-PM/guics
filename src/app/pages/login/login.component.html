@@ -1,15 +1,43 @@
 <div class="login-container">
-  <img src="https://i.imgur.com/Skbsjb4.png" alt="GUICS Logo" width="300"/>
-  <h2>Login</h2>
-  <form [formGroup]="loginForm">
-    <div>
-      <label for="email">E-mail</label>
-      <input type="text" id="email" name="email" formControlName="email" required />
+  <div class="p-col-12 p-md-6 login-left">
+    <!-- <img src="https://i.imgur.com/Skbsjb4.png" alt="GUICS Logo" width="300" /> -->
+
+    <div class="form-container">
+      <h2 class="text-4x1 pb-0">Bem vindo novamente</h2>
+      <p class="mb-5">Informe seus dados</p>
+      <form [formGroup]="loginForm">
+        <p-floatlabel variant="on">
+          <input formControlName="email" required pInputText autocomplete="off" type="email" id="email" class="w-full my-3"/>
+          <label for="email">E-mail</label>
+        </p-floatlabel>
+        <p-floatlabel variant="on">
+          <input formControlName="password" required pInputText autocomplete="off" type="password" id="password" class="w-full my-3"/>
+          <label for="password">Senha</label>
+        </p-floatlabel>
+        <p-floatlabel variant="on">
+          <input formControlName="businessName" required pInputText autocomplete="off" type="text" id="businessName" class="w-full my-3"/>
+          <label for="businessName">Empresa</label>
+        </p-floatlabel>
+        <div class="flex justify-content-between my-4">
+          <div class="p-field-checkbox">
+            <input type="checkbox" id="remember" class="p-checkbox p-component">
+            <label for="remember">Lembrar por 30 dias</label>
+          </div>
+          <a href="#" class="text-primary font-semibold">Esqueceu sua senha?</a>
+        </div>
+        <button type="submit" class="w-full p-3" (click)="login()">Entrar na conta</button>
+        <a href="#" class="google-btn mt-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" width="25" class="pr-1">
+          Continue com o Google
+        </a>
+      </form>
+      <div class="flex justify-content-center">
+        <p>Não possui uma conta? <a href="#" class="text-primary font-semibold"> Cadastre-se</a></p>
+      </div>
     </div>
-    <div>
-      <label for="password">Senha</label>
-      <input type="password" id="password" name="password" formControlName="password" required />
-    </div>
-    <button (click)="login()">Entrar</button>
-  </form>
+  </div>
+
+  <div class="login-right border-left-2">
+      <img src="images/login-image.png" alt="Illustration">
+  </div>
 </div>

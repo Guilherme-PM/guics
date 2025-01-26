@@ -32,9 +32,18 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/global.scss",
+              "src/styles/colors.scss",
+              "src/styles/variables.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeflex/primeflex.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {

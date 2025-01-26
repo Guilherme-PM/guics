@@ -1,0 +1,19 @@
+$p-surface-colors: (
+  50: var(--p-neutral-50),
+  100: var(--p-neutral-100),
+  200: var(--p-neutral-200),
+  300: var(--p-neutral-300),
+  400: var(--p-neutral-400),
+  500: var(--p-neutral-500),
+  600: var(--p-neutral-600),
+  700: var(--p-neutral-700),
+  800: var(--p-neutral-800),
+  900: var(--p-neutral-900),
+  950: var(--p-neutral-950)
+);
+
+@each $key, $value in $p-surface-colors {
+  .p-surface-#{$key} {
+    color: $value;
+  }
+}
