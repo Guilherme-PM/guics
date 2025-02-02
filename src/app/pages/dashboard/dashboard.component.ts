@@ -9,7 +9,7 @@ import { Toast } from 'primeng/toast';
   imports: [CardModule, ButtonModule, Toast],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
-  providers: [MessageService]
+  // providers: [MessageService]
 })
 export class DashboardComponent {
   constructor(private messageService: MessageService) {}

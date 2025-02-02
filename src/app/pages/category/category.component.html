@@ -1,123 +1,179 @@
-<p-tabs value="0" scrollable>
-  <p-tablist>
-    <p-tab value="0">Lista de Categorias</p-tab>
-    <p-tab value="1">Cadastrar Categoria</p-tab>
-    <p-tab value="2">Editar Categoria</p-tab>
-    <p-tab disabled>Importar Categorias</p-tab>
-    <p-tab disabled>Exportar Categorias</p-tab>
-  </p-tablist>
-  <p-tabpanels>
-    <p-tabpanel value="0">
-      <p class="m-0">
-        <p-table
-          #tableViewCategorys
-          [value]="categorys"
-          dataKey="id"
-          [rows]="10"
-          [rowsPerPageOptions]="[10, 25, 50]"
-          [loading]="loading"
-          [paginator]="true"
-          [globalFilterFields]="['name', 'description', 'createdAt', 'updatedAt', 'status']"
-        >
-          <ng-template #caption>
-            <div class="flex">
-              <p-button label="Limpar filtros" [outlined]="true" icon="pi pi-filter-slash" (click)="clearFilters(tableViewCategorys)" />
-              <p-iconfield iconPosition="left" class="ml-auto">
-                <p-inputicon>
-                  <i class="pi pi-search"></i>
-                </p-inputicon>
-                <input pInputText type="text" (input)="tableViewCategorys.filterGlobal($event.target, 'contains')" placeholder="Pesquisar" />
-              </p-iconfield>
-            </div>
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+      <p-button label="Nova" icon="pi pi-plus" class="mr-2" (click)="categoryDialog = true" />
+      <p-button severity="danger" label="Deletar" icon="pi pi-trash" outlined (click)="deleteSelectedCategories()" [disabled]="!selectedCategories || !selectedCategories.length"/>
+  </ng-template>
+
+  <ng-template #end>
+      <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Importar" chooseLabel="Importar" auto customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
+      <p-button label="Exportar" icon="pi pi-upload" severity="secondary" />
+  </ng-template>
+</p-toolbar>
+
+<p class="m-0">
+  <p-table
+  #tableViewCategories
+  [value]="categories"
+  dataKey="idCategory"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [loading]="loading"
+  [paginator]="true"
+  editMode="row"
+  [(selection)]="selectedCategories"
+  sortMode="multiple"
+  [globalFilterFields]="['name', 'description', 'createdAt', 'updatedAt', 'status']">
+  
+  <ng-template #caption>
+    <div class="flex">
+      <p-button label="Limpar filtros" [outlined]="true" icon="pi pi-filter-slash" (click)="clearFilters(tableViewCategories)" />
+      <p-iconfield iconPosition="left" class="ml-auto">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input #searchBox pInputText type="text" [(ngModel)]="searchValue" (input)="tableViewCategories.filterGlobal(searchBox.value, 'contains')" placeholder="Pesquisar" />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox />
+      </th>
+      <th style="min-width: 7rem"></th>
+      <th style="min-width: 15rem" pSortableColumn="name">
+        <div class="flex align-items-center">
+          Nome 
+          <p-columnFilter type="text" field="name" display="menu" />
+          <p-sortIcon field="name" />
+        </div>
+      </th>
+      <th style="min-width:15rem" pSortableColumn="description">
+        <div class="flex align-items-center">
+          Descrição
+          <p-columnFilter type="text" field="description" display="menu" />
+          <p-sortIcon field="description" />
+        </div>
+      </th>
+      <th style="min-width:10rem"  pSortableColumn="createdAt">
+        <div class="flex align-items-center">
+          Data de Criação
+          <p-columnFilter type="date" field="createdAt" display="menu" />
+          <p-sortIcon field="createdAt" />
+        </div>
+      </th>
+      <th style="min-width:10rem" pSortableColumn="updatedAt">
+        <div class="flex align-items-center">
+          Data de Edição
+          <p-columnFilter type="numeric" field="updatedAt" display="menu" />
+          <p-sortIcon field="updatedAt" />
+        </div>
+      </th>
+      <th style="width: 3rem" pSortableColumn="status">
+        <div class="flex align-items-center">
+          Status
+          <p-columnFilter type="boolean" field="status" display="menu" />
+          <p-sortIcon field="status" />
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-category let-editing="editing" let-ri="rowIndex">
+    <tr [pEditableRow]="category">
+      <td style="width: 3rem">
+        <p-tableCheckbox [value]="category" />
+      </td>
+      <td>
+        <div class="flex gap-2">
+          @if(!editing){
+            <p-button pInitEditableRow [rounded]="true" [outlined]="true" severity="secondary" icon="pi pi-pencil" (click)="onRowEditInit(category)"/>
+            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteProduct(category)"/>
+          } @else {
+            <p-button pSaveEditableRow [rounded]="true" [outlined]="true" severity="success" icon="pi pi-check" (click)="onRowEditSave(category)"/>
+            <p-button pCancelEditableRow [rounded]="true" [outlined]="true" severity="danger" icon="pi pi-times" (click)="onRowEditCancel(category, ri)"/>
+          }
+        </div>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template #input>
+            <input fluid
+                pInputText type="text"
+                [(ngModel)]="category.name" />
           </ng-template>
-          <ng-template #header>
-            <tr>
-              <th style="min-width:15rem">
-                <div class="flex align-items-center">
-                  Nome
-                  <p-columnFilter type="text" field="name" display="menu" />
-                </div>
-              </th>
-              <th style="min-width:15rem">
-                <div class="flex align-items-center">
-                  Descrição
-                  <p-columnFilter type="text" field="description" display="menu" />
-                </div>
-              </th>
-              <th style="min-width:10rem">
-                <div class="flex align-items-center">
-                  Data de Criação
-                  <p-columnFilter type="date" field="createdAt" display="menu" />
-                </div>
-              </th>
-              <th style="min-width:10rem">
-                <div class="flex align-items-center">
-                  Data de Edição
-                  <p-columnFilter type="numeric" field="updatedAt" display="menu" />
-                </div>
-              </th>
-              <th style="width: 3rem">
-                <div class="flex align-items-center">
-                  Status
-                  <p-columnFilter type="boolean" field="status" display="menu" />
-                </div>
-              </th>
-            </tr>
+          <ng-template #output>
+            {{category.name}}
           </ng-template>
-          <ng-template #body let-category>
-            <tr>
-              <td>
-                {{ category.name }}
-              </td>
-              <td>
-                {{ category.description }}
-              </td>
-              <td>
-                {{ category.createdAt | date: 'dd/MM/yyyy' }}
-              </td>
-              <td>
-                {{ category.updatedAt | date: 'dd/MM/yyyy' }}
-              </td>
-              <td class="text-center">
-                <i
-                    class="pi"
-                    [ngClass]="{
-                        'text-green-500 pi-check-circle': category.active,
-                        'text-red-500 pi-times-circle': !category.active
-                    }"
-                ></i>
-              </td>
-            </tr>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template #input>
+            <input fluid
+              pInputText type="text"
+              [(ngModel)]="category.description" />
           </ng-template>
-          <ng-template #emptymessage>
-              <tr>
-                <td colspan="5">Não há nenhuma categoria cadastrada no sistema.</td>
-              </tr>
+          <ng-template #output>
+              {{category.description}}
           </ng-template>
-        </p-table>
-      </p>
-    </p-tabpanel>
-    <p-tabpanel value="1">
-      <form [formGroup]="categoryForm" class="grid">
-        <p-floatlabel variant="in" class="col-2 w-5">
-          <input pInputText id="name" class="w-full" formControlName="name"/>
-          <label for="name">Nome</label>
-        </p-floatlabel>
-        <p-floatlabel variant="in" class="col-2 w-5">
-          <input pInputText id="description" class="w-full" formControlName="description"/>
-          <label for="description">Descrição</label>
-        </p-floatlabel>
-        <p-button label="Salvar Categoria" class="flex align-items-center" (click)="saveCategory()"/>
-      </form>
-    </p-tabpanel>
-    <p-tabpanel value="2">
-      <p class="m-0">
-          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-          atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique
-          sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum
-          facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil
-          impedit quo minus.
-      </p>
-    </p-tabpanel>
-  </p-tabpanels>
-</p-tabs>
+        </p-cellEditor>
+      </td>
+      <td>
+        {{ category.createdAt | date: 'dd/MM/yyyy' }}
+      </td>
+      <td>
+        {{ category.updatedAt | date: 'dd/MM/yyyy' }}
+      </td>
+      <td class="text-center">
+        <p-cellEditor>
+          <ng-template #input>
+            <p-checkBox [(ngModel)]="category.active" [binary]="true"/>
+          </ng-template>
+          <ng-template #output>
+            <i
+              class="pi"
+              [ngClass]="{
+                  'text-green-500 pi-check-circle': category.active,
+                  'text-red-500 pi-times-circle': !category.active
+              }"
+            ></i>
+          </ng-template>
+        </p-cellEditor>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="7">Não há nenhuma categoria cadastrada no sistema.</td>
+    </tr>
+  </ng-template>
+</p-table>
+</p>
+
+<p-dialog [(visible)]="categoryDialog" [style]="{ width: '450px' }" header="Categoria" [modal]="true">
+  <ng-template #content>
+    <form [formGroup]="categoryForm">
+      <div class="flex flex-column">
+        <div>
+          <p-floatlabel variant="in" class="col-2 w-full">
+            <input pInputText id="name" formControlName="name" required autofocus fluid />
+            <label for="name">Nome</label>
+            <small class="text-red-500" *ngIf="!categoryForm.value.name">O nome é obrigatório.</small>
+          </p-floatlabel>
+        </div>
+        <div>
+          <p-floatlabel variant="in" class="col-2 w-full">
+            <input pInputText id="name" formControlName="description" fluid />
+            <label for="description">Descrição</label>
+          </p-floatlabel>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="categoryDialog = false" />
+    <p-button label="Salvar" icon="pi pi-check" (click)="saveCategory()" />
+  </ng-template>
+</p-dialog>

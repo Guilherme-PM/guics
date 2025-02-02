@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { CategoryRegisterDTO } from '../../models/category/category-register-dto';
-import { CategoryListDTO } from '../../models/category/category-list-dto';
 import { PaginatorDTO } from '../../models/paginator/paginator-dto';
 import { PaginatedResultDTO } from '../../models/paginator/paginated-result-dto';
+import { CategoryUpdateDTO } from '../../models/category/category-update-dto';
+import { ResponseDTO } from '../../models/response-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,23 @@ export class CategoryService {
 
   constructor(private http: HttpClient) {}
 
-  registerCategory(category: CategoryRegisterDTO): Observable<CategoryListDTO> {
-    console.log('Chamando registerCategory com dados:', category); // Log de depuração
-  
-    return this.http.post<CategoryListDTO>(
+  registerCategory(category: CategoryRegisterDTO): Observable<ResponseDTO> {  
+    return this.http.post<ResponseDTO>(
       environment.apiUrl + 'Category/RegisterCategoryByCompany',
+      category
+    );
+  }
+
+  updateCategory(category: CategoryUpdateDTO): Observable<ResponseDTO> {
+    return this.http.post<ResponseDTO>(
+      environment.apiUrl + 'Category/UpdateCategoryByCompany',
+      category
+    );
+  }
+
+  deleteCategoriesAsync(category: CategoryUpdateDTO[]): Observable<ResponseDTO> {
+    return this.http.post<ResponseDTO>(
+      environment.apiUrl + 'Category/DeleteCategoriesByCompany',
       category
     );
   }

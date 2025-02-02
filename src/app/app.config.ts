@@ -6,17 +6,20 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from '../styles/mytheme';
 import { authInterceptor } from './interceptors/auth/auth.interceptor';
+import { errorInterceptor } from './interceptors/error/error.interceptor';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), 
-    provideHttpClient(withInterceptors([authInterceptor])), 
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])), 
     provideAnimations(),
     providePrimeNG({ 
       theme: {
         preset: MyPreset,
       }
     }),
+    MessageService
   ]
 };
