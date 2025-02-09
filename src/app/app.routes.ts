@@ -4,7 +4,8 @@ import { PrivateLayoutComponent } from './layout/private-layout/private-layout.c
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { AuthGuard } from './guard/auth.guard';
-import { ProductComponent } from './pages/login/product/product.component';
+import { ProductComponent } from './pages/product/product.component';
+import { SubcategoryComponent } from './pages/subcategory/subcategory.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,6 +17,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'category', component: CategoryComponent },
+      { path: 'subcategory', component: SubcategoryComponent },
       { path: 'product', component: ProductComponent }
     ]
   }

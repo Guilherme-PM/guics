@@ -15,36 +15,27 @@ export class CategoryService {
 
   constructor(private http: HttpClient) {}
 
-  registerCategory(category: CategoryRegisterDTO): Observable<ResponseDTO> {  
-    return this.http.post<ResponseDTO>(
-      environment.apiUrl + 'Category/RegisterCategoryByCompany',
-      category
-    );
-  }
-
-  updateCategory(category: CategoryUpdateDTO): Observable<ResponseDTO> {
-    return this.http.post<ResponseDTO>(
-      environment.apiUrl + 'Category/UpdateCategoryByCompany',
-      category
-    );
-  }
-
-  deleteCategoriesAsync(category: CategoryUpdateDTO[]): Observable<ResponseDTO> {
-    return this.http.post<ResponseDTO>(
-      environment.apiUrl + 'Category/DeleteCategoriesByCompany',
-      category
-    );
-  }
-
-  listCategory(request: PaginatorDTO, idCompany: number): Observable<PaginatedResultDTO> {
+  listCategory(paginatorDTO: PaginatorDTO): Observable<PaginatedResultDTO> {
     const params = new HttpParams()
-      .set('pageNumber', request.pageNumber.toString())
-      .set('pageSize', request.pageSize.toString())
-      .set('idCompany', idCompany.toString());
+      .set('pageNumber', paginatorDTO.pageNumber.toString())
+      .set('pageSize', paginatorDTO.pageSize.toString())
   
-    return this.http.get<PaginatedResultDTO>(
-      `${environment.apiUrl}Category/GetAllCategorysByCompany`,
-      { params }
-    );
+    return this.http.get<PaginatedResultDTO>(`${environment.apiUrl}Category/GetAllCategoriesByCompany/`, { params });
+  }
+
+  registerCategory(categoryDTO: CategoryRegisterDTO): Observable<ResponseDTO> {  
+    return this.http.post<ResponseDTO>(environment.apiUrl + `Category/RegisterCategoryByCompany`, categoryDTO);
+  }
+
+  updateCategory(idCategory: number, categoryDTO: CategoryUpdateDTO): Observable<ResponseDTO> {
+    return this.http.put<ResponseDTO>(environment.apiUrl + `Category/UpdateCategoryByCompany/${idCategory}`, categoryDTO);
+  }
+
+  deleteCategoriesAsync(idsCategories: number[]): Observable<ResponseDTO> {
+    return this.http.post<ResponseDTO>(environment.apiUrl + 'Category/DeleteCategoriesByCompany', idsCategories);
+  }
+
+  deleteCategoryAsync(idCategory: number): Observable<ResponseDTO> {
+    return this.http.delete<ResponseDTO>(environment.apiUrl + `Category/DeleteCategoryByCompany/${idCategory}`);
   }
 }
