@@ -1,157 +1,296 @@
-<p-tabs value="0">
-  <p-tablist>
-    <p-tab value="0">Lista de Produtos</p-tab>
-    <p-tab value="1">Cadastrar Produto</p-tab>
-    <p-tab value="2">Editar Produtos</p-tab>
-    <p-tab disabled>Importar Produtos</p-tab>
-    <p-tab disabled>Exportar Produtos</p-tab>
-  </p-tablist>
-  <p-tabpanels>
-    <p-tabpanel value="0">
-      <p-dataview #dv [value]="products()" [layout]="layout">
-        <ng-template #header>
-            <div class="flex justify-content-end">
-                <p-selectbutton [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
-                    <ng-template #item let-item>
-                        <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
-                    </ng-template>
-                </p-selectbutton>
-            </div>
-        </ng-template>
-        <ng-template #list let-items>
-            <div *ngFor="let item of items; let first = first">
-                <div
-                    class="flex flex-col sm:flex-row sm:align-items-center p-3 gap-4"
-                    [ngClass]="{ 'border-top-1 border-gray-800 dark:border-surface-700': !first }"
-                >
-                    <div class="md:w-40 relative">
-                        <img
-                            class="block xl:block mx-auto rounded w-8"
-                            [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + item.image"
-                            [alt]="item.name"
-                        />
-                        <p-tag
-                            [value]="item.inventoryStatus"
-                            [severity]="getSeverity(item)"
-                            class="absolute"
-                            styleClass="dark:!bg-surface-900"
-                            [style.left.px]="50"
-                            [style.top.px]="4"
-                        />
-                    </div>
-                    <div class="flex flex-col md:flex-row justify-content-between align-items-center flex-1 gap-6">
-                        <div class="flex flex-row md:flex-col justify-content-between items-start gap-2">
-                            <div>
-                                <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">{{ item.category }}</span>
-                                <div class="text-lg font-medium mt-2">{{ item.name }}</div>
-                            </div>
-                            <div class="bg-surface-100 p-1" style="border-radius: 30px">
-                                <div
-                                class="bg-surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2"
-                                style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)"
-                                >
-                                  <div>Quantidade: {{item.quantity}}</div>
-                                    <!-- <span class="text-surface-900 font-medium text-sm">{{ item.rating }}</span> -->
-                                    <!-- <i class="pi pi-star-fill text-yellow-500"></i> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col md:items-end gap-8">
-                            <span class="text-xl font-semibold">{{ item.price | currency: 'BRL' }}</span>
-                            <div class="flex flex-row-reverse md:flex-row gap-2">
-                                <!-- <button pButton icon="pi pi-heart" [outlined]="true"></button> -->
-                                <button
-                                    pButton
-                                    icon="pi pi-shopping-cart"
-                                    label="Adicionar no Carrinho"
-                                    [disabled]="item.inventoryStatus === 'FORA DE ESTOQUE'"
-                                    class="flex-auto md:flex-initial whitespace-nowrap"
-                                ></button>
-                            </div>
-                        </div>
-                    </div>
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button label="Nova" icon="pi pi-plus" class="mr-2" (click)="showDialogRegister()" />
+    <p-button severity="danger" label="Deletar" icon="pi pi-trash" outlined (click)="deleteSelectedProducts()"
+      [disabled]="!selectedProducts || !selectedProducts.length" />
+  </ng-template>
+
+  <ng-template #end>
+    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Importar" chooseLabel="Importar" auto
+      customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
+    <p-button label="Exportar" icon="pi pi-upload" severity="secondary" />
+  </ng-template>
+</p-toolbar>
+
+<p-table #tableViewProduct [value]="products" dataKey="idProduct" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+  [loading]="loading" [paginator]="true" editMode="row" [(selection)]="selectedProducts" sortMode="multiple"
+  [globalFilterFields]="['identifier', 'name', 'description', 'price', 'subcategory', 'createdAt', 'updatedAt', 'active']">
+
+  <ng-template #caption>
+    <div class="flex">
+      <p-button label="Limpar filtros" [outlined]="true" icon="pi pi-filter-slash"
+        (click)="clearFilters(tableViewProduct)" />
+      <p-iconfield iconPosition="left" class="ml-auto">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input #searchBox pInputText type="text" [(ngModel)]="searchValue"
+          (input)="tableViewProduct.filterGlobal(searchBox.value, 'contains')" placeholder="Pesquisar" />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox />
+      </th>
+      <th style="min-width: 7rem"></th>
+      <th style="min-width: 15rem" pSortableColumn="identifier">
+        <div class="flex align-items-center">
+          Identificador
+          <p-columnFilter type="text" field="identifier" display="menu" />
+          <p-sortIcon field="identifier" />
+        </div>
+      </th>
+      <th style="min-width: 15rem" pSortableColumn="name">
+        <div class="flex align-items-center">
+          Nome
+          <p-columnFilter type="text" field="name" display="menu" />
+          <p-sortIcon field="name" />
+        </div>
+      </th>
+      <th style="min-width:15rem" pSortableColumn="description">
+        <div class="flex align-items-center">
+          Descrição
+          <p-columnFilter type="text" field="description" display="menu" />
+          <p-sortIcon field="description" />
+        </div>
+      </th>
+      <th style="min-width:15rem" pSortableColumn="price">
+        <div class="flex align-items-center">
+          Preço
+          <p-columnFilter type="text" field="price" display="menu" />
+          <p-sortIcon field="price" />
+        </div>
+      </th>
+      <th style="min-width:10rem" pSortableColumn="createdAt">
+        <div class="flex align-items-center">
+          Data de Criação
+          <p-columnFilter type="date" field="createdAt" display="menu" />
+          <p-sortIcon field="createdAt" />
+        </div>
+      </th>
+      <th style="min-width:10rem" pSortableColumn="updatedAt">
+        <div class="flex align-items-center">
+          Data de Edição
+          <p-columnFilter type="numeric" field="updatedAt" display="menu" />
+          <p-sortIcon field="updatedAt" />
+        </div>
+      </th>
+      <th style="width: 3rem" pSortableColumn="status">
+        <div class="flex align-items-center">
+          Status
+          <p-columnFilter type="boolean" field="status" display="menu" />
+          <p-sortIcon field="status" />
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product let-editing="editing" let-ri="rowIndex">
+    <tr [pEditableRow]="product">
+      <td style="width: 3rem">
+        <p-tableCheckbox [value]="product" />
+      </td>
+      <td>
+        <div class="flex gap-2">
+          <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+            (click)="deleteProduct(product)" />
+        </div>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template #input>
+            <input fluid pInputText type="text" [(ngModel)]="product.name" />
+          </ng-template>
+          <ng-template #output>
+            {{product.name}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template #input>
+            <input fluid pInputText type="text" [(ngModel)]="product.description" />
+          </ng-template>
+          <ng-template #output>
+            {{product.description}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        {{ product.createdAt | date: 'dd/MM/yyyy' }}
+      </td>
+      <td>
+        {{ product.updatedAt | date: 'dd/MM/yyyy' }}
+      </td>
+      <td class="text-center">
+        <p-cellEditor>
+          <ng-template #input>
+            <p-checkBox [(ngModel)]="product.active" [binary]="true" />
+          </ng-template>
+          <ng-template #output>
+            <i class="pi" [ngClass]="{
+                'text-green-500 pi-check-circle': product.active,
+                'text-red-500 pi-times-circle': !product.active
+            }"></i>
+          </ng-template>
+        </p-cellEditor>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="9">Não há nenhuma categoria cadastrada no sistema.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="productDialog" [style]="{ width: '105vh' }" header="Produto" [modal]="true">
+  <ng-template #content>
+    <p-stepper [(value)]="activeStep" [linear]="false">
+      <p-step-list class="grid grid-cols-2">
+        <p-step [value]="1" class="flex flex-row flex-auto gap-2">
+          <ng-template #content let-activateCallback="activateCallback" let-value="value">
+            <p-button pButton icon="pi pi-user" [rounded]="true" (click)="activateCallback()" />
+          </ng-template>
+        </p-step>
+      
+        <p-step [value]="2">
+          <ng-template #content let-activateCallback="activateCallback" let-value="value">
+            <p-button pButton icon="pi pi-image" [rounded]="true" [outlined]="value > activeStep" (click)="activateCallback()" />
+          </ng-template>
+        </p-step>
+      </p-step-list>
+      
+      <p-step-panels>
+        <p-step-panel [value]="1">
+          <ng-template #content let-activateCallback="activateCallback">
+            <form [formGroup]="productForm">
+              <div class="flex flex-column">
+                <div>
+                  <p-floatlabel variant="in" class="col-2 w-full">
+                    <p-select showClear="true" formControlName="idSubcategory" inputId="subcategory_label"
+                      [options]="subcategories" optionLabel="name" optionValue="idSubcategory" styleClass="w-full" />
+                    <label for="subcategory_label">Subcategoria</label>
+                    <small class="text-red-500" *ngIf="!productForm.value.idSubcategory">A subcategoria é
+                      obrigatória.</small>
+                  </p-floatlabel>
                 </div>
-            </div>
-        </ng-template>
-        <ng-template #grid let-items>
-            <div class="grid grid-cols-12 gap-4">
-                <div *ngFor="let product of items" class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-6 p-2">
-                    <div
-                        class="p-3 border-top-1 border-gray-800 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded flex flex-col"
-                    >
-                        <div class="bg-surface-50 flex justify-content-center rounded p-4">
-                            <div class="relative mx-auto">
-                                <img
-                                    class="rounded w-10"
-                                    [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image"
-                                    [alt]="product.name"
-                                    style="max-width: 300px"
-                                />
-                                <p-tag
-                                    [value]="product.inventoryStatus"
-                                    [severity]="getSeverity(product)"
-                                    class="absolute"
-                                    styleClass="dark:!bg-surface-900"
-                                    [style.left.px]="4"
-                                    [style.top.px]="4"
-                                />
-                            </div>
-                        </div>
-                        <div class="pt-6">
-                            <div class="flex flex-row justify-content-between products-start gap-2">
-                                <div>
-                                    <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">{{
-                                        product.category
-                                    }}</span>
-                                    <div class="text-lg font-medium mt-1">{{ product.name }}</div>
-                                </div>
-                                <div class="bg-surface-100 p-1" style="border-radius: 30px; height:100%">
-                                    <div
-                                        class="bg-surface-0 flex products-center gap-2 justify-content-center py-1 px-2"
-                                        style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)"
-                                    >
-                                        <!-- <span class="text-surface-900 font-medium text-sm">{{ product.rating }}</span> -->
-                                        <!-- <i class="pi pi-star-fill text-yellow-500"></i> -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-6 mt-6">
-                                <span class="text-2xl font-semibold">{{ product.price | currency: 'BRL' }}</span>
-                                <div class="flex gap-2">
-                                    <button
-                                        pButton
-                                        icon="pi pi-shopping-cart"
-                                        label="Adicionar no Carrinho"
-                                        [disabled]="product.inventoryStatus === 'FORA DE ESTOQUE'"
-                                        class="flex-auto whitespace-nowrap"
-                                    ></button>
-                                    <!-- <button pButton icon="pi pi-heart" outlined></button> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                <div>
+                  <p-floatlabel variant="in" class="col-2 w-full">
+                    <input pInputText id="name" formControlName="name" required autofocus fluid />
+                    <label for="name">Nome</label>
+                    <small class="text-red-500" *ngIf="!productForm.value.name">O nome é obrigatório.</small>
+                  </p-floatlabel>
                 </div>
-            </div>
-        </ng-template>
-      </p-dataview>
-    </p-tabpanel>
-    <p-tabpanel value="1">
-      <p class="m-0">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-          aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-          dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius
-          modi.
-      </p>
-    </p-tabpanel>
-    <p-tabpanel value="2">
-      <p class="m-0">
-          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-          atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique
-          sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum
-          facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil
-          impedit quo minus.
-      </p>
-    </p-tabpanel>
-  </p-tabpanels>
-</p-tabs>
+
+                <div>
+                  <p-floatlabel variant="in" class="col-2 w-full">
+                    <input pInputText id="description" formControlName="description" fluid />
+                    <label for="description">Descrição</label>
+                  </p-floatlabel>
+                </div>
+
+                <div>
+                  <p-floatlabel variant="in" class="col-2 w-full">
+                    <input pInputText id="price" formControlName="price" required />
+                    <label for="price">Preço</label>
+                    <small class="text-red-500" *ngIf="!productForm.value.price">O preço é obrigatório.</small>
+                  </p-floatlabel>
+                </div>
+
+                <div>
+
+
+                </div>
+              </div>
+            </form>
+          </ng-template>
+        </p-step-panel>
+
+        <p-step-panel [value]="2">
+          <ng-template #content let-activateCallback="activateCallback">
+            <p-fileupload name="myfile[]" [multiple]="true"
+              accept="image/*" maxFileSize="1000000" (onUpload)="onTemplatedUpload()"
+              (onSelect)="onSelectedFiles($event)">
+
+              <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback"
+                let-uploadCallback="uploadCallback">
+                <div class="flex flex-wrap justify-between align-items-center flex-1 gap-4 white-space-nowrap	l">
+                  <div class="flex gap-2">
+                    <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-images" [rounded]="true"
+                      [outlined]="true" />
+                    <p-button (onClick)="uploadEvent(uploadCallback)" icon="pi pi-cloud-upload" [rounded]="true"
+                      [outlined]="true" severity="success" [disabled]="!files || files.length === 0" />
+                    <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true"
+                      severity="danger" [disabled]="!files || files.length === 0" />
+                  </div>
+                  <p-progressbar [value]="totalSizePercent" [showValue]="false" class="w-full"
+                    styleClass="md:w-20rem h-1 w-full md:ml-auto">
+                    <span class="white-space-nowrap">{{ totalSize }}B / 1Mb</span>
+                  </p-progressbar>
+                </div>
+              </ng-template>
+
+              <ng-template #content let-files let-uploadedFiles="uploadedFiles"
+                let-removeFileCallback="removeFileCallback" let-removeUploadedFileCallback="removeUploadedFileCallback">
+                <div class="flex flex-col gap-8 pt-4">
+                  <div *ngIf="files?.length > 0">
+                    <h5>Pendente</h5>
+                    <div class="flex flex-wrap gap-4">
+                      <div *ngFor="let file of files; let i = index"
+                        class="p-8 border-2 border-round flex flex-col border-200 align-items-center gap-4 white-space-nowrap">
+                        <div>
+                          <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="75" />
+                        </div>
+                        <span class="font-semibold text-ellipsis max-w-60 white-space-nowrap overflow-hidden">{{
+                          file.name }}</span>
+                        <div>{{ formatSize(file.size) }}</div>
+                        <p-badge value="Pendente" severity="warn" />
+                        <p-button icon="pi pi-times"
+                          (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i)" [outlined]="true"
+                          [rounded]="true" severity="danger" />
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="uploadedFiles?.length > 0">
+                    <h5>Completed</h5>
+                    <div class="flex flex-wrap gap-4">
+                      <div *ngFor="let file of uploadedFiles; let i = index"
+                        class="card m-0 px-12 flex flex-col border-2 border-round border-200 align-items-center gap-4">
+                        <div>
+                          <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="75" />
+                        </div>
+                        <span class="font-semibold text-ellipsis max-w-60 white-space-nowrap overflow-hidden">{{
+                          file.name }}</span>
+                        <div>{{ formatSize(file.size) }}</div>
+                        <p-badge value="Completed" class="mt-4" severity="success" />
+                        <p-button icon="pi pi-times" (onClick)="removeUploadedFileCallback(i)" [outlined]="true"
+                          [rounded]="true" severity="danger" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+
+              <ng-template #file></ng-template>
+              <ng-template #empty>
+                <div class="flex align-items-center justify-content-center flex-col">
+                  <i class="pi pi-cloud-upload !border-2 !rounded-full !p-8 !text-4xl !text-muted-color"></i>
+                  <p class="mt-6 mb-0">Jogue as imagens aqui para carregar as imagens.</p>
+                </div>
+              </ng-template>
+            </p-fileupload>
+          </ng-template>
+        </p-step-panel>
+      </p-step-panels>
+    </p-stepper>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="productDialog = false" />
+    <p-button label="Salvar" icon="pi pi-check" (click)="saveProduct()" />
+  </ng-template>
+</p-dialog>

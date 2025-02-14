@@ -1,5 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, signal } from '@angular/core';
 import { ImportsModule } from '../../imports/imports';
+import { ProductUpdateDTO } from '../../models/product/product-update-dto';
+import { ProductListDTO } from '../../models/product/product-list-dto';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SubcategoryListDTO } from '../../models/subcategory/subcategory-list-dto';
+import { ProductService } from '../../services/product/product.service';
+import { MessageService } from 'primeng/api';
+import { PrimeNG } from 'primeng/config';
 
 @Component({
   selector: 'app-product',
@@ -7,397 +14,142 @@ import { ImportsModule } from '../../imports/imports';
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
+
 export class ProductComponent {
   layout: 'list' | 'grid' = 'list';
 
-  products = signal<any>([]);
+  products: ProductListDTO[] = [];
 
   options = ['list', 'grid'];
 
   data: any;
 
-  constructor() {}
+  selectedProducts: ProductUpdateDTO[] = [];
+  loading: boolean = false;
+  searchValue: string | undefined;
+  productDialog: boolean = false;
+  productForm!: FormGroup;
+  subcategories: SubcategoryListDTO[] = [];
+  uploadedImages: any[] = []; // Imagens carregadas
+  files!: any[];
+  totalSize : number = 0;
+
+  totalSizePercent : number = 0;
+  activeStep: number = 1;
+
+  constructor(
+    private formBuilder: FormBuilder, 
+    private productSvc: ProductService, 
+    private messageService: MessageService, 
+    private config: PrimeNG,
+    private cdr: ChangeDetectorRef) 
+  {
+    this.productForm = this.formBuilder.group({
+      idCategory: [null, Validators.required],
+      name: ['', Validators.required],
+      description: [''],
+      price: [null, Validators.required],
+      images: [[], Validators.required],  // Para garantir que pelo menos uma imagem seja carregada
+      mainImageIndex: [null]  // Para armazenar o índice da imagem principal
+    });
+  }
+
+  goToStep(step: number) {
+    this.activeStep = step;
+    this.cdr.detectChanges(); // Força a detecção de mudanças
+  }
 
   ngOnInit() {
-    this.getProductsData();
-    this.products.set([...this.data.slice(0,12)]);
   }
 
-  getSeverity(product: any) {
-    switch (product.inventoryStatus) {
-      case 'EM ESTOQUE':
-        return 'success';
-      case 'BAIXO ESTOQUE':
-        return 'warn';
-      case 'FORA DE ESTOQUE':
-        return 'danger';
-      default:
-        return undefined;
+  showDialogRegister(){
+    this.productDialog = true;
+  }
+
+  deleteSelectedProducts(){
+
+  }
+
+  clearFilters(table: any){
+
+  }
+
+  deleteProduct(product: ProductUpdateDTO){
+
+  }
+
+  // Evento disparado quando imagens são selecionadas
+  onImageSelect(event: any) {
+    this.uploadedImages = event.files;
+    this.productForm.patchValue({ images: this.uploadedImages });
+  }
+
+  // Obtém as opções de imagens carregadas para o dropdown
+  getImageOptions() {
+    return this.uploadedImages.map((image, index) => ({
+      name: image.name,
+      value: index
+    }));
+  }
+
+  // Função de salvar o produto
+  saveProduct() {
+    if (this.productForm.valid) {
+      this.productSvc.registerProduct(this.productForm.value).subscribe(response => {
+        this.productDialog = false;
+      }, error => {
+      });
     }
   }
-  
-  getProductsData() {
-    this.data = [
-        {
-            id: '1000',
-            code: 'f230fh0g3',
-            name: 'Coca-Cola Lata',
-            description: 'Product Description',
-            image: 'bamboo-watch.jpg',
-            price: 6,
-            category: 'REFRIGERANTE',
-            quantity: 24,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 5
-        },
-        {
-            id: '1001',
-            code: 'nvklal433',
-            name: 'Brahma',
-            description: 'Product Description',
-            image: 'black-watch.jpg',
-            price: 12.5,
-            category: 'BEBIDA ALCOÓLICA',
-            quantity: 0,
-            inventoryStatus: 'FORA DE ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1002',
-            code: 'zz21cz3c1',
-            name: 'Salgadinho de Pizza',
-            description: 'Product Description',
-            image: 'blue-band.jpg',
-            price: 3,
-            category: 'SALGADINHO',
-            quantity: 2,
-            inventoryStatus: 'BAIXO ESTOQUE',
-            rating: 3
-        },
-        {
-            id: '1003',
-            code: '244wgerg2',
-            name: 'Blue T-Shirt',
-            description: 'Product Description',
-            image: 'blue-t-shirt.jpg',
-            price: 29,
-            category: 'Clothing',
-            quantity: 25,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 5
-        },
-        {
-            id: '1004',
-            code: 'h456wer53',
-            name: 'Bracelet',
-            description: 'Product Description',
-            image: 'bracelet.jpg',
-            price: 15,
-            category: 'Accessories',
-            quantity: 73,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1005',
-            code: 'av2231fwg',
-            name: 'Brown Purse',
-            description: 'Product Description',
-            image: 'brown-purse.jpg',
-            price: 120,
-            category: 'Accessories',
-            quantity: 0,
-            inventoryStatus: 'FORA DE ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1006',
-            code: 'bib36pfvm',
-            name: 'Chakra Bracelet',
-            description: 'Product Description',
-            image: 'chakra-bracelet.jpg',
-            price: 32,
-            category: 'Accessories',
-            quantity: 5,
-            inventoryStatus: 'BAIXO ESTOQUE',
-            rating: 3
-        },
-        {
-            id: '1007',
-            code: 'mbvjkgip5',
-            name: 'Galaxy Earrings',
-            description: 'Product Description',
-            image: 'galaxy-earrings.jpg',
-            price: 34,
-            category: 'Accessories',
-            quantity: 23,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 5
-        },
-        {
-            id: '1008',
-            code: 'vbb124btr',
-            name: 'Game Controller',
-            description: 'Product Description',
-            image: 'game-controller.jpg',
-            price: 99,
-            category: 'Electronics',
-            quantity: 2,
-            inventoryStatus: 'BAIXO ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1009',
-            code: 'cm230f032',
-            name: 'Gaming Set',
-            description: 'Product Description',
-            image: 'gaming-set.jpg',
-            price: 299,
-            category: 'Electronics',
-            quantity: 63,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 3
-        },
-        {
-            id: '1010',
-            code: 'plb34234v',
-            name: 'Gold Phone Case',
-            description: 'Product Description',
-            image: 'gold-phone-case.jpg',
-            price: 24,
-            category: 'Accessories',
-            quantity: 0,
-            inventoryStatus: 'FORA DE ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1011',
-            code: '4920nnc2d',
-            name: 'Green Earbuds',
-            description: 'Product Description',
-            image: 'green-earbuds.jpg',
-            price: 89,
-            category: 'Electronics',
-            quantity: 23,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1012',
-            code: '250vm23cc',
-            name: 'Green T-Shirt',
-            description: 'Product Description',
-            image: 'green-t-shirt.jpg',
-            price: 49,
-            category: 'Clothing',
-            quantity: 74,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 5
-        },
-        {
-            id: '1013',
-            code: 'fldsmn31b',
-            name: 'Grey T-Shirt',
-            description: 'Product Description',
-            image: 'grey-t-shirt.jpg',
-            price: 48,
-            category: 'Clothing',
-            quantity: 0,
-            inventoryStatus: 'FORA DE ESTOQUE',
-            rating: 3
-        },
-        {
-            id: '1014',
-            code: 'waas1x2as',
-            name: 'Headphones',
-            description: 'Product Description',
-            image: 'headphones.jpg',
-            price: 175,
-            category: 'Electronics',
-            quantity: 8,
-            inventoryStatus: 'BAIXO ESTOQUE',
-            rating: 5
-        },
-        {
-            id: '1015',
-            code: 'vb34btbg5',
-            name: 'Light Green T-Shirt',
-            description: 'Product Description',
-            image: 'light-green-t-shirt.jpg',
-            price: 49,
-            category: 'Clothing',
-            quantity: 34,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1016',
-            code: 'k8l6j58jl',
-            name: 'Lime Band',
-            description: 'Product Description',
-            image: 'lime-band.jpg',
-            price: 79,
-            category: 'Fitness',
-            quantity: 12,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 3
-        },
-        {
-            id: '1017',
-            code: 'v435nn85n',
-            name: 'Mini Speakers',
-            description: 'Product Description',
-            image: 'mini-speakers.jpg',
-            price: 85,
-            category: 'Clothing',
-            quantity: 42,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1018',
-            code: '09zx9c0zc',
-            name: 'Painted Phone Case',
-            description: 'Product Description',
-            image: 'painted-phone-case.jpg',
-            price: 56,
-            category: 'Accessories',
-            quantity: 41,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 5
-        },
-        {
-            id: '1019',
-            code: 'mnb5mb2m5',
-            name: 'Pink Band',
-            description: 'Product Description',
-            image: 'pink-band.jpg',
-            price: 79,
-            category: 'Fitness',
-            quantity: 63,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1020',
-            code: 'r23fwf2w3',
-            name: 'Pink Purse',
-            description: 'Product Description',
-            image: 'pink-purse.jpg',
-            price: 110,
-            category: 'Accessories',
-            quantity: 0,
-            inventoryStatus: 'FORA DE ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1021',
-            code: 'pxpzczo23',
-            name: 'Purple Band',
-            description: 'Product Description',
-            image: 'purple-band.jpg',
-            price: 79,
-            category: 'Fitness',
-            quantity: 6,
-            inventoryStatus: 'BAIXO ESTOQUE',
-            rating: 3
-        },
-        {
-            id: '1022',
-            code: '2c42cb5cb',
-            name: 'Purple Gemstone Necklace',
-            description: 'Product Description',
-            image: 'purple-gemstone-necklace.jpg',
-            price: 45,
-            category: 'Accessories',
-            quantity: 62,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1023',
-            code: '5k43kkk23',
-            name: 'Purple T-Shirt',
-            description: 'Product Description',
-            image: 'purple-t-shirt.jpg',
-            price: 49,
-            category: 'Clothing',
-            quantity: 2,
-            inventoryStatus: 'BAIXO ESTOQUE',
-            rating: 5
-        },
-        {
-            id: '1024',
-            code: 'lm2tny2k4',
-            name: 'Shoes',
-            description: 'Product Description',
-            image: 'shoes.jpg',
-            price: 64,
-            category: 'Clothing',
-            quantity: 0,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1025',
-            code: 'nbm5mv45n',
-            name: 'Sneakers',
-            description: 'Product Description',
-            image: 'sneakers.jpg',
-            price: 78,
-            category: 'Clothing',
-            quantity: 52,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 4
-        },
-        {
-            id: '1026',
-            code: 'zx23zc42c',
-            name: 'Teal T-Shirt',
-            description: 'Product Description',
-            image: 'teal-t-shirt.jpg',
-            price: 49,
-            category: 'Clothing',
-            quantity: 3,
-            inventoryStatus: 'BAIXO ESTOQUE',
-            rating: 3
-        },
-        {
-            id: '1027',
-            code: 'acvx872gc',
-            name: 'Yellow Earbuds',
-            description: 'Product Description',
-            image: 'yellow-earbuds.jpg',
-            price: 89,
-            category: 'Electronics',
-            quantity: 35,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 3
-        },
-        {
-            id: '1028',
-            code: 'tx125ck42',
-            name: 'Yoga Mat',
-            description: 'Product Description',
-            image: 'yoga-mat.jpg',
-            price: 20,
-            category: 'Fitness',
-            quantity: 15,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 5
-        },
-        {
-            id: '1029',
-            code: 'gwuby345v',
-            name: 'Yoga Set',
-            description: 'Product Description',
-            image: 'yoga-set.jpg',
-            price: 20,
-            category: 'Fitness',
-            quantity: 25,
-            inventoryStatus: 'EM ESTOQUE',
-            rating: 8
-        }
-    ];
+
+  onRemoveTemplatingFile(event: any, file: any, removeFileCallback: any, index: any) {
+    removeFileCallback(event, index);
+    this.totalSize -= parseInt(this.formatSize(file.size));
+    this.totalSizePercent = this.totalSize / 10;
 }
+
+onClearTemplatingUpload(clear: any) {
+    clear();
+    this.totalSize = 0;
+    this.totalSizePercent = 0;
+}
+
+onTemplatedUpload() {
+    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+}
+
+onSelectedFiles(event: any) {
+    this.files = event.currentFiles;
+    this.files.forEach((file) => {
+      this.totalSize += parseInt(this.formatSize(file.size) || '0');
+    });
+
+    this.totalSizePercent = this.totalSize / 10;
+}
+
+uploadEvent(callback: any) {
+    callback();
+}
+
+formatSize(bytes: any) {
+    const k = 1024;
+    const dm = 3;
+    const sizes = this.config.translation.fileSizeTypes;
+
+    if(sizes == undefined)
+      return '0';
+    
+    if (bytes === 0) {
+        return `0 ${sizes[0]}`;
+    }
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const formattedSize = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+
+    return `${formattedSize} ${sizes[i]}`;
+  }
+
+  choose(event: any, callback: any) {
+    callback();
+  }
 }

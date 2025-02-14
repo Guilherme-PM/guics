@@ -198,7 +198,7 @@ import { IftaLabelModule } from 'primeng/iftalabel';
     OverlayBadgeModule,
     TabsModule,
     TagModule,
-    IftaLabelModule
+    IftaLabelModule,
   ],
   exports: [
     AvatarModule,
@@ -299,7 +299,7 @@ import { IftaLabelModule } from 'primeng/iftalabel';
     OverlayBadgeModule,
     TabsModule,
     TagModule,
-    IftaLabelModule
+    IftaLabelModule,
   ]
 })
 export class ImportsModule {}
