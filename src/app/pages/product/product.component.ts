@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, PLATFORM_ID } from '@angular/core';
 import { ImportsModule } from '../../imports/imports';
 import { ProductUpdateDTO } from '../../models/product/product-update-dto';
 import { ProductListDTO } from '../../models/product/product-list-dto';
@@ -8,9 +8,7 @@ import { ProductService } from '../../services/product/product.service';
 import { MessageService } from 'primeng/api';
 import { PrimeNG } from 'primeng/config';
 import { SubcategoryService } from '../../services/subcategory/subcategory.service';
-import { PaginatorDTO } from '../../models/paginator/paginator-dto';
-import { PaginatedResultDTO } from '../../models/paginator/paginated-result-dto';
-import { ResponseDTO } from '../../models/response-dto';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-product',
@@ -42,12 +40,25 @@ export class ProductComponent {
   totalSizePercent : number = 0;
   activeStep: number = 1;
 
+
+
+
+
+
+  dataa!: any;
+
+  optionss!: any;
+
+  platformId = inject(PLATFORM_ID);
+
+
   constructor(
     private formBuilder: FormBuilder, 
     private productSvc: ProductService, 
     private messageService: MessageService, 
     private config: PrimeNG,
-    private subcategorySvc: SubcategoryService) 
+    private subcategorySvc: SubcategoryService,
+    private cd: ChangeDetectorRef) 
   {
     this.productForm = this.formBuilder.group({
       idSubcategory: [null, Validators.required],
@@ -55,14 +66,47 @@ export class ProductComponent {
       description: [''],
       sellingPrice: [null, Validators.required],
       costPrice: [null],
-      images: [[], Validators.required],  // Para garantir que pelo menos uma imagem seja carregada
-      mainImageIndex: [null]  // Para armazenar o índice da imagem principal
+      sku: [''],
+      images: [[], Validators.required],
+      mainImageIndex: [null]
     });
   }
 
   ngOnInit() {
     
   }
+
+  initChart() {
+    if (isPlatformBrowser(this.platformId)) {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+
+        this.dataa = {
+            labels: ['Preço de Custo', 'Margem de Lucro'],
+            datasets: [
+                {
+                    label: 'R$',
+                    data: [this.productForm.value.costPrice, this.profitMargin],
+                    backgroundColor: [documentStyle.getPropertyValue('--p-red-500'), documentStyle.getPropertyValue('--p-green-500')],
+                    hoverBackgroundColor: [documentStyle.getPropertyValue('--p-red-400'), documentStyle.getPropertyValue('--p-green-400')]
+                }
+            ]
+        };
+
+        this.optionss = {
+            plugins: {
+                legend: {
+                    labels: {
+                        usePointStyle: true,
+                        color: textColor
+                    }
+                }
+            }
+        };
+        this.cd.markForCheck()
+    }
+
+}
 
   showDialogRegister(){
     this.listSubcategories();
@@ -87,6 +131,7 @@ export class ProductComponent {
     if (costPrice && sellingPrice) {
       this.profitMargin = sellingPrice - costPrice;
       this.profitMarginPercentage = (this.profitMargin / costPrice) * 100;
+      this.initChart();
     } else {
       this.profitMargin = 0;
       this.profitMarginPercentage = 0;
@@ -114,7 +159,7 @@ export class ProductComponent {
       this.profitMargin = (this.profitMarginPercentage / 100) * costPrice;
   
       const sellingPrice = costPrice + this.profitMargin;
-      
+
       this.productForm.patchValue({
         sellingPrice: sellingPrice
       });

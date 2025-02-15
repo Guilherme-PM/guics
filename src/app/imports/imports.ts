@@ -97,6 +97,7 @@ import { NgModule } from '@angular/core';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { TabsModule } from 'primeng/tabs';
 import { IftaLabelModule } from 'primeng/iftalabel';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   imports: [
@@ -199,6 +200,7 @@ import { IftaLabelModule } from 'primeng/iftalabel';
     TabsModule,
     TagModule,
     IftaLabelModule,
+    ChartModule
   ],
   exports: [
     AvatarModule,
@@ -300,6 +302,7 @@ import { IftaLabelModule } from 'primeng/iftalabel';
     TabsModule,
     TagModule,
     IftaLabelModule,
+    ChartModule
   ]
 })
 export class ImportsModule {}

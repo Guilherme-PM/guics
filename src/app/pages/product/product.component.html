@@ -146,8 +146,8 @@
   </ng-template>
 </p-table>
 
-<p-dialog [(visible)]="productDialog" [style]="{ width: '105vh' }" header="Produto" [modal]="true">
-  <ng-template #content>
+<p-dialog [(visible)]="productDialog" [style]="{ width: '105vh', height: '75vh' }" header="Produto" [modal]="true" class="overflow-hidden">
+  <ng-template #content class="overflow-hidden">
     <p-stepper [(value)]="activeStep" class="basis-[40rem]">
       <p-step-list>
         <p-step [value]="1" class="flex flex-row flex-auto gap-2">
@@ -191,7 +191,7 @@
       </p-step-list>
       <form [formGroup]="productForm">
         <p-step-panels>
-          <p-step-panel [value]="1">
+          <p-step-panel [value]="1" class="h-full flex flex-col">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="grid grid-cols-4 gap-4">
                 <div class="col-span-2">
@@ -219,6 +219,12 @@
                 </div>
                 <div class="col-span-4">
                   <p-floatlabel variant="in">
+                    <input formControlName="sku" pInputText id="sku" autocomplete="off" class="w-full" />
+                    <label for="sku">SKU</label>
+                  </p-floatlabel>
+                </div>
+                <div class="col-span-4">
+                  <p-floatlabel variant="in">
                     <textarea formControlName="description" pTextarea id="description" rows="5" cols="30"
                       style="resize: none" class="w-full"></textarea>
                     <label for="description">Descrição</label>
@@ -228,7 +234,6 @@
               <div class="flex pt-6 justify-end">
                 <p-button (onClick)="activateCallback(2)" label="Próximo" icon="pi pi-arrow-right" iconPos="right" />
               </div>
-
             </ng-template>
           </p-step-panel>
 
@@ -253,7 +258,7 @@
                   <p-floatlabel variant="in">
                     <p-inputnumber [disabled]="!productForm.value.costPrice" (onInput)="onInputProfitMarginPercentage()" [(ngModel)]="profitMarginPercentage" [ngModelOptions]="{standalone: true}"
                       inputId="profitMarginPercentage" [suffix]="'%'" class="w-full" />
-                    <label for="profitMarginPercentage">Margem de Lucro %</label>
+                    <label for="profitMarginPercentage">Margem de Lucro (Sobre Custo) %</label>
                   </p-floatlabel>
                 </div>
                 <div class="col-span-2">
@@ -264,6 +269,7 @@
                   </p-floatlabel>
                 </div>
               </div>
+              <p-chart type="pie" [data]="dataa" [options]="optionss" width="300" />
               <div class="flex pt-6 justify-between">
                 <p-button (onClick)="activateCallback(1)" label="Voltar" severity="secondary" icon="pi pi-arrow-left" />
                 <p-button (onClick)="activateCallback(3)" label="Próximo" icon="pi pi-arrow-right" iconPos="right" />
