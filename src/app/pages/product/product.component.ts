@@ -7,6 +7,10 @@ import { SubcategoryListDTO } from '../../models/subcategory/subcategory-list-dt
 import { ProductService } from '../../services/product/product.service';
 import { MessageService } from 'primeng/api';
 import { PrimeNG } from 'primeng/config';
+import { SubcategoryService } from '../../services/subcategory/subcategory.service';
+import { PaginatorDTO } from '../../models/paginator/paginator-dto';
+import { PaginatedResultDTO } from '../../models/paginator/paginated-result-dto';
+import { ResponseDTO } from '../../models/response-dto';
 
 @Component({
   selector: 'app-product',
@@ -16,11 +20,11 @@ import { PrimeNG } from 'primeng/config';
 })
 
 export class ProductComponent {
-  layout: 'list' | 'grid' = 'list';
+  layout: 'list' | 'grid grid-cols-12 gap-4' = 'list';
 
   products: ProductListDTO[] = [];
 
-  options = ['list', 'grid'];
+  options = ['list', 'grid grid-cols-12 gap-4'];
 
   data: any;
 
@@ -32,8 +36,9 @@ export class ProductComponent {
   subcategories: SubcategoryListDTO[] = [];
   uploadedImages: any[] = []; // Imagens carregadas
   files!: any[];
-  totalSize : number = 0;
-
+  totalSize: number = 0;
+  profitMargin: number = 0;
+  profitMarginPercentage: number = 0;
   totalSizePercent : number = 0;
   activeStep: number = 1;
 
@@ -42,28 +47,78 @@ export class ProductComponent {
     private productSvc: ProductService, 
     private messageService: MessageService, 
     private config: PrimeNG,
-    private cdr: ChangeDetectorRef) 
+    private subcategorySvc: SubcategoryService) 
   {
     this.productForm = this.formBuilder.group({
-      idCategory: [null, Validators.required],
+      idSubcategory: [null, Validators.required],
       name: ['', Validators.required],
       description: [''],
-      price: [null, Validators.required],
+      sellingPrice: [null, Validators.required],
+      costPrice: [null],
       images: [[], Validators.required],  // Para garantir que pelo menos uma imagem seja carregada
       mainImageIndex: [null]  // Para armazenar o índice da imagem principal
     });
   }
 
-  goToStep(step: number) {
-    this.activeStep = step;
-    this.cdr.detectChanges(); // Força a detecção de mudanças
-  }
-
   ngOnInit() {
+    
   }
 
   showDialogRegister(){
+    this.listSubcategories();
     this.productDialog = true;
+  }
+
+  listSubcategories() {
+    this.subcategorySvc.getAllCategoriesWithSubcategoriesAsync().subscribe({
+      next: (response: any) => {
+        this.subcategories = response;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar as subcategorias', err);
+      }
+    });
+  }
+
+  marginCalculate(){
+    const costPrice = this.productForm.value.costPrice;
+    const sellingPrice = this.productForm.value.sellingPrice;
+
+    if (costPrice && sellingPrice) {
+      this.profitMargin = sellingPrice - costPrice;
+      this.profitMarginPercentage = (this.profitMargin / costPrice) * 100;
+    } else {
+      this.profitMargin = 0;
+      this.profitMarginPercentage = 0;
+    }
+  }
+
+  onInputProfitMargin() {
+    const costPrice = this.productForm.value.costPrice;
+  
+    if (costPrice && this.profitMargin) {
+      const sellingPrice = costPrice + this.profitMargin;
+
+      this.productForm.patchValue({
+        sellingPrice: sellingPrice
+      });
+  
+      this.profitMarginPercentage = (this.profitMargin / costPrice) * 100;
+    }
+  }
+  
+  onInputProfitMarginPercentage() {
+    const costPrice = this.productForm.value.costPrice;
+  
+    if (costPrice && this.profitMarginPercentage) {
+      this.profitMargin = (this.profitMarginPercentage / 100) * costPrice;
+  
+      const sellingPrice = costPrice + this.profitMargin;
+      
+      this.productForm.patchValue({
+        sellingPrice: sellingPrice
+      });
+    }
   }
 
   deleteSelectedProducts(){

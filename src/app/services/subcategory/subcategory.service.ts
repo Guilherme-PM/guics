@@ -22,6 +22,10 @@ export class SubcategoryService {
     return this.http.get<PaginatedResultDTO>(`${environment.apiUrl}Subcategory/GetAllSubcategoriesByCompany/`, { params });
   }
 
+  getAllCategoriesWithSubcategoriesAsync(): Observable<ResponseDTO> {  
+    return this.http.get<ResponseDTO>(`${environment.apiUrl}Subcategory/GetAllCategoriesWithSubcategories`);
+  }
+
   registerSubcategory(subcategoryDTO: SubcategoryRegisterDTO): Observable<ResponseDTO> {  
     return this.http.post<ResponseDTO>(`${environment.apiUrl}Subcategory/RegisterSubcategoryByCompany`, subcategoryDTO);
   }

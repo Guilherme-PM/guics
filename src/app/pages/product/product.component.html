@@ -1,4 +1,4 @@
-<p-toolbar styleClass="mb-6">
+<p-toolbar styleClass="mb-12">
   <ng-template #start>
     <p-button label="Nova" icon="pi pi-plus" class="mr-2" (click)="showDialogRegister()" />
     <p-button severity="danger" label="Deletar" icon="pi pi-trash" outlined (click)="deleteSelectedProducts()"
@@ -37,49 +37,49 @@
       </th>
       <th style="min-width: 7rem"></th>
       <th style="min-width: 15rem" pSortableColumn="identifier">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Identificador
           <p-columnFilter type="text" field="identifier" display="menu" />
           <p-sortIcon field="identifier" />
         </div>
       </th>
       <th style="min-width: 15rem" pSortableColumn="name">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Nome
           <p-columnFilter type="text" field="name" display="menu" />
           <p-sortIcon field="name" />
         </div>
       </th>
       <th style="min-width:15rem" pSortableColumn="description">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Descrição
           <p-columnFilter type="text" field="description" display="menu" />
           <p-sortIcon field="description" />
         </div>
       </th>
       <th style="min-width:15rem" pSortableColumn="price">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Preço
           <p-columnFilter type="text" field="price" display="menu" />
           <p-sortIcon field="price" />
         </div>
       </th>
       <th style="min-width:10rem" pSortableColumn="createdAt">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Data de Criação
           <p-columnFilter type="date" field="createdAt" display="menu" />
           <p-sortIcon field="createdAt" />
         </div>
       </th>
       <th style="min-width:10rem" pSortableColumn="updatedAt">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Data de Edição
           <p-columnFilter type="numeric" field="updatedAt" display="menu" />
           <p-sortIcon field="updatedAt" />
         </div>
       </th>
       <th style="width: 3rem" pSortableColumn="status">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Status
           <p-columnFilter type="boolean" field="status" display="menu" />
           <p-sortIcon field="status" />
@@ -148,149 +148,209 @@
 
 <p-dialog [(visible)]="productDialog" [style]="{ width: '105vh' }" header="Produto" [modal]="true">
   <ng-template #content>
-    <p-stepper [(value)]="activeStep" [linear]="false">
-      <p-step-list class="grid grid-cols-2">
+    <p-stepper [(value)]="activeStep" class="basis-[40rem]">
+      <p-step-list>
         <p-step [value]="1" class="flex flex-row flex-auto gap-2">
           <ng-template #content let-activateCallback="activateCallback" let-value="value">
-            <p-button pButton icon="pi pi-user" [rounded]="true" (click)="activateCallback()" />
+            <button class="bg-transparent border-0 inline-flex flex-col gap-2" (click)="activateCallback()">
+              <span class="rounded-full w-12 h-12 inline-flex items-center justify-center" [ngClass]="{
+                              'bg-primary text-primary-contrast border-primary': value <= activeStep,
+                              'border-surface border-2': value > activeStep
+                          }">
+                <i class="pi pi-user"></i>
+              </span>
+            </button>
           </ng-template>
         </p-step>
-      
-        <p-step [value]="2">
+
+        <p-step [value]="2" class="flex flex-row flex-auto gap-2">
           <ng-template #content let-activateCallback="activateCallback" let-value="value">
-            <p-button pButton icon="pi pi-image" [rounded]="true" [outlined]="value > activeStep" (click)="activateCallback()" />
+            <button class="bg-transparent border-0 inline-flex flex-col gap-2" (click)="activateCallback()">
+              <span class="rounded-full w-12 h-12 inline-flex items-center justify-center" [ngClass]="{
+                              'bg-primary text-primary-contrast border-primary': value <= activeStep,
+                              'border-surface border-2': value > activeStep
+                          }">
+                <i class="pi pi-wallet"></i>
+              </span>
+            </button>
+          </ng-template>
+        </p-step>
+
+        <p-step [value]="3" class="flex flex-row flex-auto gap-2">
+          <ng-template #content let-activateCallback="activateCallback" let-value="value">
+            <button class="bg-transparent border-0 inline-flex flex-col gap-2" (click)="activateCallback()">
+              <span class="rounded-full w-12 h-12 inline-flex items-center justify-center" [ngClass]="{
+                              'bg-primary text-primary-contrast border-primary': value <= activeStep,
+                              'border-surface border-2': value > activeStep
+                          }">
+                <i class="pi pi-images"></i>
+              </span>
+            </button>
           </ng-template>
         </p-step>
       </p-step-list>
-      
-      <p-step-panels>
-        <p-step-panel [value]="1">
-          <ng-template #content let-activateCallback="activateCallback">
-            <form [formGroup]="productForm">
-              <div class="flex flex-column">
-                <div>
-                  <p-floatlabel variant="in" class="col-2 w-full">
-                    <p-select showClear="true" formControlName="idSubcategory" inputId="subcategory_label"
-                      [options]="subcategories" optionLabel="name" optionValue="idSubcategory" styleClass="w-full" />
-                    <label for="subcategory_label">Subcategoria</label>
-                    <small class="text-red-500" *ngIf="!productForm.value.idSubcategory">A subcategoria é
-                      obrigatória.</small>
-                  </p-floatlabel>
-                </div>
-
-                <div>
-                  <p-floatlabel variant="in" class="col-2 w-full">
-                    <input pInputText id="name" formControlName="name" required autofocus fluid />
+      <form [formGroup]="productForm">
+        <p-step-panels>
+          <p-step-panel [value]="1">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="grid grid-cols-4 gap-4">
+                <div class="col-span-2">
+                  <p-floatlabel variant="in">
+                    <input formControlName="name" pInputText id="name" autocomplete="off" class="w-full" />
                     <label for="name">Nome</label>
-                    <small class="text-red-500" *ngIf="!productForm.value.name">O nome é obrigatório.</small>
                   </p-floatlabel>
                 </div>
-
-                <div>
-                  <p-floatlabel variant="in" class="col-2 w-full">
-                    <input pInputText id="description" formControlName="description" fluid />
+                <div class="col-span-2">
+                  <p-floatlabel variant="in" class="col-span-2 w-full">
+                    <p-select formControlName="idSubcategory" [options]="subcategories"
+                      placeholder="Selecione uma subcategoria" [filter]="true" filterBy="label" [showClear]="true"
+                      [group]="true" class="w-full">
+                      <ng-template let-group #group>
+                        <div class="flex items-center">
+                          <span>📂 {{ group.label }}</span>
+                        </div>
+                      </ng-template>
+                      <ng-template let-subcategory #item>
+                        <span>🏷️ {{ subcategory.label }}</span>
+                      </ng-template>
+                      <label for="subcategory">Subcategoria</label>
+                    </p-select>
+                  </p-floatlabel>
+                </div>
+                <div class="col-span-4">
+                  <p-floatlabel variant="in">
+                    <textarea formControlName="description" pTextarea id="description" rows="5" cols="30"
+                      style="resize: none" class="w-full"></textarea>
                     <label for="description">Descrição</label>
                   </p-floatlabel>
                 </div>
+              </div>
+              <div class="flex pt-6 justify-end">
+                <p-button (onClick)="activateCallback(2)" label="Próximo" icon="pi pi-arrow-right" iconPos="right" />
+              </div>
 
-                <div>
-                  <p-floatlabel variant="in" class="col-2 w-full">
-                    <input pInputText id="price" formControlName="price" required />
-                    <label for="price">Preço</label>
-                    <small class="text-red-500" *ngIf="!productForm.value.price">O preço é obrigatório.</small>
+            </ng-template>
+          </p-step-panel>
+
+          <p-step-panel [value]="2">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="grid grid-cols-4 gap-4">
+                <div class="col-span-2">
+                  <p-floatlabel variant="in">
+                    <p-inputnumber (onInput)="marginCalculate()" formControlName="costPrice" inputId="costPrice"
+                      mode="currency" currency="BRL" locale="pt-BR" class="w-full" />
+                    <label for="costPrice">Preço de Custo</label>
                   </p-floatlabel>
                 </div>
-
-                <div>
-
-
+                <div class="col-span-2">
+                  <p-floatlabel variant="in">
+                    <p-inputnumber (onInput)="marginCalculate()" formControlName="sellingPrice" inputId="sellingPrice"
+                      mode="currency" currency="BRL" locale="pt-BR" class="w-full" />
+                    <label for="sellingPrice">Preço de Venda</label>
+                  </p-floatlabel>
+                </div>
+                <div class="col-span-2">
+                  <p-floatlabel variant="in">
+                    <p-inputnumber [disabled]="!productForm.value.costPrice" (onInput)="onInputProfitMarginPercentage()" [(ngModel)]="profitMarginPercentage" [ngModelOptions]="{standalone: true}"
+                      inputId="profitMarginPercentage" [suffix]="'%'" class="w-full" />
+                    <label for="profitMarginPercentage">Margem de Lucro %</label>
+                  </p-floatlabel>
+                </div>
+                <div class="col-span-2">
+                  <p-floatlabel variant="in">
+                    <p-inputnumber [disabled]="!productForm.value.costPrice" (onInput)="onInputProfitMargin()" [(ngModel)]="profitMargin" [ngModelOptions]="{standalone: true}" inputId="profitMargin"
+                      mode="currency" currency="BRL" locale="pt-BR" class="w-full" />
+                    <label for="profitMargin">Margem de Lucro</label>
+                  </p-floatlabel>
                 </div>
               </div>
-            </form>
-          </ng-template>
-        </p-step-panel>
-
-        <p-step-panel [value]="2">
-          <ng-template #content let-activateCallback="activateCallback">
-            <p-fileupload name="myfile[]" [multiple]="true"
-              accept="image/*" maxFileSize="1000000" (onUpload)="onTemplatedUpload()"
-              (onSelect)="onSelectedFiles($event)">
-
-              <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback"
-                let-uploadCallback="uploadCallback">
-                <div class="flex flex-wrap justify-between align-items-center flex-1 gap-4 white-space-nowrap	l">
-                  <div class="flex gap-2">
-                    <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-images" [rounded]="true"
-                      [outlined]="true" />
-                    <p-button (onClick)="uploadEvent(uploadCallback)" icon="pi pi-cloud-upload" [rounded]="true"
-                      [outlined]="true" severity="success" [disabled]="!files || files.length === 0" />
-                    <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true"
-                      severity="danger" [disabled]="!files || files.length === 0" />
-                  </div>
-                  <p-progressbar [value]="totalSizePercent" [showValue]="false" class="w-full"
-                    styleClass="md:w-20rem h-1 w-full md:ml-auto">
-                    <span class="white-space-nowrap">{{ totalSize }}B / 1Mb</span>
-                  </p-progressbar>
-                </div>
-              </ng-template>
-
-              <ng-template #content let-files let-uploadedFiles="uploadedFiles"
-                let-removeFileCallback="removeFileCallback" let-removeUploadedFileCallback="removeUploadedFileCallback">
-                <div class="flex flex-col gap-8 pt-4">
-                  <div *ngIf="files?.length > 0">
-                    <h5>Pendente</h5>
-                    <div class="flex flex-wrap gap-4">
-                      <div *ngFor="let file of files; let i = index"
-                        class="p-8 border-2 border-round flex flex-col border-200 align-items-center gap-4 white-space-nowrap">
-                        <div>
-                          <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="75" />
+              <div class="flex pt-6 justify-between">
+                <p-button (onClick)="activateCallback(1)" label="Voltar" severity="secondary" icon="pi pi-arrow-left" />
+                <p-button (onClick)="activateCallback(3)" label="Próximo" icon="pi pi-arrow-right" iconPos="right" />
+              </div>
+            </ng-template>
+          </p-step-panel>
+          <p-step-panel [value]="3">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="card">
+                <p-fileupload name="myfile[]" [multiple]="true" accept="image/*" maxFileSize="1000000"
+                  (onUpload)="onTemplatedUpload()" (onSelect)="onSelectedFiles($event)">
+                  <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback"
+                    let-uploadCallback="uploadCallback">
+                    <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
+                      <div class="flex gap-2">
+                        <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-images" [rounded]="true"
+                          [outlined]="true" />
+                        <p-button (onClick)="uploadEvent(uploadCallback)" icon="pi pi-cloud-upload" [rounded]="true"
+                          [outlined]="true" severity="success" [disabled]="!files || files.length === 0" />
+                        <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true"
+                          severity="danger" [disabled]="!files || files.length === 0" />
+                      </div>
+                      <p-progressbar [value]="totalSizePercent" [showValue]="false" class="w-full"
+                        styleClass="md:w-20rem h-1 w-full md:ml-auto">
+                        <span class="whitespace-nowrap">{{ totalSize }}B / 1Mb</span>
+                      </p-progressbar>
+                    </div>
+                  </ng-template>
+                  <ng-template #content let-files let-uploadedFiles="uploadedFiles"
+                    let-removeFileCallback="removeFileCallback"
+                    let-removeUploadedFileCallback="removeUploadedFileCallback">
+                    <div class="flex flex-col gap-8 pt-4">
+                      <div *ngIf="files?.length > 0">
+                        <h5>Pendente</h5>
+                        <div class="flex flex-wrap gap-4">
+                          <div *ngFor="let file of files; let i = index"
+                            class="p-8 rounded-border flex flex-col border border-surface items-center gap-4">
+                            <div>
+                              <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100"
+                                height="50" />
+                            </div>
+                            <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{
+                              file.name }}</span>
+                            <div>{{ formatSize(file.size) }}</div>
+                            <p-badge value="Pendente" severity="warn" />
+                            <p-button icon="pi pi-times"
+                              (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i)" [outlined]="true"
+                              [rounded]="true" severity="danger" />
+                          </div>
                         </div>
-                        <span class="font-semibold text-ellipsis max-w-60 white-space-nowrap overflow-hidden">{{
-                          file.name }}</span>
-                        <div>{{ formatSize(file.size) }}</div>
-                        <p-badge value="Pendente" severity="warn" />
-                        <p-button icon="pi pi-times"
-                          (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i)" [outlined]="true"
-                          [rounded]="true" severity="danger" />
+                      </div>
+                      <div *ngIf="uploadedFiles?.length > 0">
+                        <h5>Completed</h5>
+                        <div class="flex flex-wrap gap-4">
+                          <div *ngFor="let file of uploadedFiles; let i = index"
+                            class="card m-0 px-12 flex flex-col border border-surface items-center gap-4">
+                            <div>
+                              <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100"
+                                height="50" />
+                            </div>
+                            <span class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{
+                              file.name }}</span>
+                            <div>{{ formatSize(file.size) }}</div>
+                            <p-badge value="Completed" class="mt-4" severity="success" />
+                            <p-button icon="pi pi-times" (onClick)="removeUploadedFileCallback(i)" [outlined]="true"
+                              [rounded]="true" severity="danger" />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div *ngIf="uploadedFiles?.length > 0">
-                    <h5>Completed</h5>
-                    <div class="flex flex-wrap gap-4">
-                      <div *ngFor="let file of uploadedFiles; let i = index"
-                        class="card m-0 px-12 flex flex-col border-2 border-round border-200 align-items-center gap-4">
-                        <div>
-                          <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="75" />
-                        </div>
-                        <span class="font-semibold text-ellipsis max-w-60 white-space-nowrap overflow-hidden">{{
-                          file.name }}</span>
-                        <div>{{ formatSize(file.size) }}</div>
-                        <p-badge value="Completed" class="mt-4" severity="success" />
-                        <p-button icon="pi pi-times" (onClick)="removeUploadedFileCallback(i)" [outlined]="true"
-                          [rounded]="true" severity="danger" />
-                      </div>
+                  </ng-template>
+                  <ng-template #file></ng-template>
+                  <ng-template #empty>
+                    <div class="flex items-center justify-center flex-col">
+                      <i class="pi pi-cloud-upload !border-2 !rounded-full !p-8 !text-4xl !text-muted-color"></i>
+                      <p class="mt-6 mb-0">Arraste e solte os arquivos aqui para fazer upload.</p>
                     </div>
-                  </div>
-                </div>
-              </ng-template>
-
-              <ng-template #file></ng-template>
-              <ng-template #empty>
-                <div class="flex align-items-center justify-content-center flex-col">
-                  <i class="pi pi-cloud-upload !border-2 !rounded-full !p-8 !text-4xl !text-muted-color"></i>
-                  <p class="mt-6 mb-0">Jogue as imagens aqui para carregar as imagens.</p>
-                </div>
-              </ng-template>
-            </p-fileupload>
-          </ng-template>
-        </p-step-panel>
-      </p-step-panels>
+                  </ng-template>
+                </p-fileupload>
+              </div>
+              <div class="flex pt-6 justify-between">
+                <p-button (onClick)="activateCallback(2)" label="Voltar" severity="secondary" icon="pi pi-arrow-left" />
+              </div>
+            </ng-template>
+          </p-step-panel>
+        </p-step-panels>
+      </form>
     </p-stepper>
-  </ng-template>
-
-  <ng-template #footer>
-    <p-button label="Cancelar" icon="pi pi-times" text (click)="productDialog = false" />
-    <p-button label="Salvar" icon="pi pi-check" (click)="saveProduct()" />
   </ng-template>
 </p-dialog>

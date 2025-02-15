@@ -1,4 +1,4 @@
-<p-toolbar styleClass="mb-6">
+<p-toolbar styleClass="mb-12">
   <ng-template #start>
     <p-button label="Nova" icon="pi pi-plus" class="mr-2" (click)="showDialogRegister()" />
     <p-button severity="danger" label="Deletar" icon="pi pi-trash" outlined (click)="deleteSelectedSubcategories()" [disabled]="!selectedSubcategories || !selectedSubcategories.length"/>
@@ -41,42 +41,42 @@
         <p-tableHeaderCheckbox />
       </th>
       <th style="min-width: 15rem" pSortableColumn="name">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Categoria 
           <p-columnFilter type="text" field="name" display="menu" />
           <p-sortIcon field="name" />
         </div>
       </th>
       <th style="min-width: 15rem" pSortableColumn="name">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Nome 
           <p-columnFilter type="text" field="name" display="menu" />
           <p-sortIcon field="name" />
         </div>
       </th>
       <th style="min-width:15rem" pSortableColumn="description">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Descrição
           <p-columnFilter type="text" field="description" display="menu" />
           <p-sortIcon field="description" />
         </div>
       </th>
       <th style="min-width:10rem"  pSortableColumn="createdAt">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Data de Criação
           <p-columnFilter type="date" field="createdAt" display="menu" />
           <p-sortIcon field="createdAt" />
         </div>
       </th>
       <th style="min-width:10rem" pSortableColumn="updatedAt">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Data de Edição
           <p-columnFilter type="numeric" field="updatedAt" display="menu" />
           <p-sortIcon field="updatedAt" />
         </div>
       </th>
       <th style="width: 3rem" pSortableColumn="status">
-        <div class="flex align-items-center">
+        <div class="flex items-center">
           Status
           <p-columnFilter type="boolean" field="status" display="menu" />
           <p-sortIcon field="status" />
@@ -150,21 +150,21 @@
 <p-dialog [(visible)]="subcategoryDialog" [style]="{ width: '450px' }" header="Subcategoria" [modal]="true">
   <ng-template #content>
     <form [formGroup]="subcategoryForm">
-      <div class="flex flex-column">
+      <div class="flex flex-col">
         <div>
-          <p-floatlabel variant="in" class="col-2 w-full">
+          <p-floatlabel variant="in" class="col-span-2 w-full">
             <p-select showClear="true" formControlName="idCategory" inputId="in_label" [options]="categories" optionLabel="name" optionValue="idCategory" styleClass="w-full"/>
             <label for="in_label">Categoria</label>
             <small class="text-red-500" *ngIf="!subcategoryForm.value.idCategory">A categoria é obrigatória.</small>
           </p-floatlabel>
-          <p-floatlabel variant="in" class="col-2 w-full">
+          <p-floatlabel variant="in" class="col-span-2 w-full">
             <input pInputText id="name" formControlName="name" required autofocus fluid />
             <label for="name">Nome</label>
             <small class="text-red-500" *ngIf="!subcategoryForm.value.name">O nome é obrigatório.</small>
           </p-floatlabel>
         </div>
         <div>
-          <p-floatlabel variant="in" class="col-2 w-full">
+          <p-floatlabel variant="in" class="col-span-2 w-full">
             <input pInputText id="name" formControlName="description" fluid />
             <label for="description">Descrição</label>
           </p-floatlabel>
