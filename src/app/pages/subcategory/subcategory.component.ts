@@ -25,6 +25,7 @@ export class SubcategoryComponent implements OnInit{
   loading: boolean = false;
   searchValue: string | undefined;
   subcategories: SubcategoryListDTO[] = [];
+  totalRecords: number = 0;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -44,12 +45,24 @@ export class SubcategoryComponent implements OnInit{
     this.listSubcategories();
   }
 
+  onPageChange(event: any){
+    var currentPage = Math.floor(event.first / event.rows) + 1;
+    const paginator: PaginatorDTO = { pageNumber: currentPage, pageSize: 10 };
+
+    this.subcategorySvc.listSubcategory(paginator).subscribe({
+      next: (response: PaginatedResultDTO) => {
+        this.subcategories = response.items as SubcategoryListDTO[];
+      }
+    });
+  }
+  
   listSubcategories(){
     const paginator: PaginatorDTO = { pageNumber: 1, pageSize: 10 };
 
     this.subcategorySvc.listSubcategory(paginator).subscribe({
       next: (response: PaginatedResultDTO) => {
         this.subcategories = response.items as SubcategoryListDTO[];
+        this.totalRecords = response.totalCount;
       }
     });
   }

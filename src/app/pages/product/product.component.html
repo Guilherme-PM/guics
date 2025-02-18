@@ -13,7 +13,7 @@
 </p-toolbar>
 
 <p-table #tableViewProduct [value]="products" dataKey="idProduct" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
-  [loading]="loading" [paginator]="true" editMode="row" [(selection)]="selectedProducts" sortMode="multiple"
+  [loading]="loading" [paginator]="true" editMode="row" [(selection)]="selectedProducts" sortMode="multiple" (onPage)="onPageChange($event)"
   [globalFilterFields]="['identifier', 'name', 'description', 'price', 'subcategory', 'createdAt', 'updatedAt', 'active']">
 
   <ng-template #caption>
@@ -85,6 +85,13 @@
           <p-sortIcon field="status" />
         </div>
       </th>
+      <!-- <th style="width: 3rem" pSortableColumn="available">
+        <div class="flex items-center">
+          Disponível
+          <p-columnFilter type="boolean" field="available" display="menu" />
+          <p-sortIcon field="available" />
+        </div>
+      </th> -->
     </tr>
   </ng-template>
   <ng-template #body let-product let-editing="editing" let-ri="rowIndex">
@@ -219,8 +226,8 @@
                 </div>
                 <div class="col-span-4">
                   <p-floatlabel variant="in">
-                    <input formControlName="sku" pInputText id="sku" autocomplete="off" class="w-full" />
-                    <label for="sku">SKU</label>
+                    <input formControlName="sku" pInputText id="sku" autocomplete="off" class="w-full uppercase" pTooltip="SKU (Stock Keeping Unit) é um código único para identificar e gerenciar um produto no estoque." tooltipPosition="top"/>
+                    <label for="sku">SKU <i class="pi pi-question-circle"></i></label>
                   </p-floatlabel>
                 </div>
                 <div class="col-span-4">
@@ -269,7 +276,9 @@
                   </p-floatlabel>
                 </div>
               </div>
-              <p-chart type="pie" [data]="dataa" [options]="optionss" width="300" />
+              <div style="height: 30vh;">
+                <p-chart type="pie" [data]="dataChart" [options]="optionsChart" width="300" height="300" />
+              </div>
               <div class="flex pt-6 justify-between">
                 <p-button (onClick)="activateCallback(1)" label="Voltar" severity="secondary" icon="pi pi-arrow-left" />
                 <p-button (onClick)="activateCallback(3)" label="Próximo" icon="pi pi-arrow-right" iconPos="right" />
@@ -352,6 +361,7 @@
               </div>
               <div class="flex pt-6 justify-between">
                 <p-button (onClick)="activateCallback(2)" label="Voltar" severity="secondary" icon="pi pi-arrow-left" />
+                <p-button (onClick)="saveProduct()" label="Salvar" severity="primary" icon="pi pi-arrow-left" />
               </div>
             </ng-template>
           </p-step-panel>

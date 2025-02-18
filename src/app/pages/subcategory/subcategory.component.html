@@ -21,7 +21,12 @@
   editMode="row"
   [(selection)]="selectedSubcategories"
   sortMode="multiple"
-  [globalFilterFields]="['category', 'name', 'description', 'createdAt', 'updatedAt', 'status']">
+  [globalFilterFields]="['category', 'name', 'description', 'createdAt', 'updatedAt', 'status']"
+  currentPageReportTemplate="Exibindo {first} até {last} de {totalRecords} dados" 
+  [showCurrentPageReport]="true"
+  (onPage)="onPageChange($event)"
+  [totalRecords]="totalRecords"
+  [lazy]="true">
   
   <ng-template #caption>
     <div class="flex">

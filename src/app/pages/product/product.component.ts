@@ -9,6 +9,8 @@ import { MessageService } from 'primeng/api';
 import { PrimeNG } from 'primeng/config';
 import { SubcategoryService } from '../../services/subcategory/subcategory.service';
 import { isPlatformBrowser } from '@angular/common';
+import { PaginatorDTO } from '../../models/paginator/paginator-dto';
+import { PaginatedResultDTO } from '../../models/paginator/paginated-result-dto';
 
 @Component({
   selector: 'app-product',
@@ -18,39 +20,23 @@ import { isPlatformBrowser } from '@angular/common';
 })
 
 export class ProductComponent {
-  layout: 'list' | 'grid grid-cols-12 gap-4' = 'list';
-
   products: ProductListDTO[] = [];
-
-  options = ['list', 'grid grid-cols-12 gap-4'];
-
-  data: any;
-
   selectedProducts: ProductUpdateDTO[] = [];
   loading: boolean = false;
   searchValue: string | undefined;
   productDialog: boolean = false;
   productForm!: FormGroup;
   subcategories: SubcategoryListDTO[] = [];
-  uploadedImages: any[] = []; // Imagens carregadas
+  uploadedImages: any[] = [];
   files!: any[];
   totalSize: number = 0;
   profitMargin: number = 0;
   profitMarginPercentage: number = 0;
   totalSizePercent : number = 0;
   activeStep: number = 1;
-
-
-
-
-
-
-  dataa!: any;
-
-  optionss!: any;
-
+  dataChart!: any;
+  optionsChart!: any;
   platformId = inject(PLATFORM_ID);
-
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -67,13 +53,32 @@ export class ProductComponent {
       sellingPrice: [null, Validators.required],
       costPrice: [null],
       sku: [''],
-      images: [[], Validators.required],
-      mainImageIndex: [null]
+   //   mainImageIndex: [1]
     });
   }
 
   ngOnInit() {
-    
+    this.listProducts();
+  }
+
+  onPageChange(event: any){
+    const paginator: PaginatorDTO = { pageNumber: event.rows, pageSize: 10 };
+
+    this.productSvc.listProducts(paginator).subscribe({
+      next: (response: PaginatedResultDTO) => {
+        this.products = response.items as any;
+      }
+    });
+  }
+
+  listProducts(){
+    const paginator: PaginatorDTO = { pageNumber: 1, pageSize: 10 };
+
+    this.productSvc.listProducts(paginator).subscribe({
+      next: (response: PaginatedResultDTO) => {
+        this.products = response.items as any;
+      }
+    });
   }
 
   initChart() {
@@ -81,7 +86,7 @@ export class ProductComponent {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
 
-        this.dataa = {
+        this.dataChart = {
             labels: ['Preço de Custo', 'Margem de Lucro'],
             datasets: [
                 {
@@ -93,7 +98,7 @@ export class ProductComponent {
             ]
         };
 
-        this.optionss = {
+        this.optionsChart = {
             plugins: {
                 legend: {
                     labels: {
@@ -149,6 +154,7 @@ export class ProductComponent {
       });
   
       this.profitMarginPercentage = (this.profitMargin / costPrice) * 100;
+      this.initChart();
     }
   }
   
@@ -157,7 +163,8 @@ export class ProductComponent {
   
     if (costPrice && this.profitMarginPercentage) {
       this.profitMargin = (this.profitMarginPercentage / 100) * costPrice;
-  
+      this.initChart();
+
       const sellingPrice = costPrice + this.profitMargin;
 
       this.productForm.patchValue({
@@ -225,6 +232,8 @@ onSelectedFiles(event: any) {
     });
 
     this.totalSizePercent = this.totalSize / 10;
+
+    this.productForm.patchValue({ images: [this.files] });
 }
 
 uploadEvent(callback: any) {
