@@ -6,6 +6,7 @@ import { ResponseDTO } from '../../models/response-dto';
 import { environment } from '../../../environments/environment';
 import { PaginatorDTO } from '../../models/paginator/paginator-dto';
 import { PaginatedResultDTO } from '../../models/paginator/paginated-result-dto';
+import { ProductListDropdownDTO } from '../../models/product/product-list-dropdown-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class ProductService {
       .set('pageSize', paginatorDTO.pageSize.toString())
   
     return this.http.get<PaginatedResultDTO>(`${environment.apiUrl}Product/GetAllProducts/`, { params });
+  }
+
+  listDropdownProducts(){
+    return this.http.get<ProductListDropdownDTO>(`${environment.apiUrl}Product/GetAllProductsDropdownByCompany/`);
   }
 }

@@ -14,7 +14,7 @@
 
 <p-table #tableViewProduct [value]="products" dataKey="idProduct" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
   [loading]="loading" [paginator]="true" editMode="row" [(selection)]="selectedProducts" sortMode="multiple" (onPage)="onPageChange($event)"
-  [globalFilterFields]="['identifier', 'name', 'description', 'price', 'subcategory', 'createdAt', 'updatedAt', 'active']">
+  [globalFilterFields]="['identifier', 'name', 'description', 'sellingPrice', 'subcategory', 'createdAt', 'updatedAt', 'active']">
 
   <ng-template #caption>
     <div class="flex">
@@ -57,11 +57,11 @@
           <p-sortIcon field="description" />
         </div>
       </th>
-      <th style="min-width:15rem" pSortableColumn="price">
+      <th style="min-width:15rem" pSortableColumn="sellingPrice">
         <div class="flex items-center">
           Preço
-          <p-columnFilter type="text" field="price" display="menu" />
-          <p-sortIcon field="price" />
+          <p-columnFilter type="text" field="sellingPrice" display="menu" />
+          <p-sortIcon field="sellingPrice" />
         </div>
       </th>
       <th style="min-width:10rem" pSortableColumn="createdAt">
@@ -106,6 +106,9 @@
         </div>
       </td>
       <td>
+        {{ product.identificator }}
+      </td>
+      <td>
         <p-cellEditor>
           <ng-template #input>
             <input fluid pInputText type="text" [(ngModel)]="product.name" />
@@ -122,6 +125,16 @@
           </ng-template>
           <ng-template #output>
             {{product.description}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template #input>
+            <input fluid pInputText type="text" [(ngModel)]="product.sellingPrice" />
+          </ng-template>
+          <ng-template #output>
+            {{product.sellingPrice | currency: 'BRL' }}
           </ng-template>
         </p-cellEditor>
       </td>
@@ -148,7 +161,7 @@
   </ng-template>
   <ng-template #emptymessage>
     <tr>
-      <td colspan="9">Não há nenhuma categoria cadastrada no sistema.</td>
+      <td colspan="9">Não há nenhum produto cadastrado no sistema.</td>
     </tr>
   </ng-template>
 </p-table>

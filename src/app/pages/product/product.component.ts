@@ -185,13 +185,11 @@ export class ProductComponent {
 
   }
 
-  // Evento disparado quando imagens são selecionadas
   onImageSelect(event: any) {
     this.uploadedImages = event.files;
     this.productForm.patchValue({ images: this.uploadedImages });
   }
 
-  // Obtém as opções de imagens carregadas para o dropdown
   getImageOptions() {
     return this.uploadedImages.map((image, index) => ({
       name: image.name,
@@ -199,7 +197,6 @@ export class ProductComponent {
     }));
   }
 
-  // Função de salvar o produto
   saveProduct() {
     if (this.productForm.valid) {
       this.productSvc.registerProduct(this.productForm.value).subscribe(response => {
@@ -213,34 +210,34 @@ export class ProductComponent {
     removeFileCallback(event, index);
     this.totalSize -= parseInt(this.formatSize(file.size));
     this.totalSizePercent = this.totalSize / 10;
-}
+  }
 
-onClearTemplatingUpload(clear: any) {
-    clear();
-    this.totalSize = 0;
-    this.totalSizePercent = 0;
-}
+  onClearTemplatingUpload(clear: any) {
+      clear();
+      this.totalSize = 0;
+      this.totalSizePercent = 0;
+  }
 
-onTemplatedUpload() {
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
-}
+  onTemplatedUpload() {
+      this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+  }
 
-onSelectedFiles(event: any) {
-    this.files = event.currentFiles;
-    this.files.forEach((file) => {
-      this.totalSize += parseInt(this.formatSize(file.size) || '0');
-    });
+  onSelectedFiles(event: any) {
+      this.files = event.currentFiles;
+      this.files.forEach((file) => {
+        this.totalSize += parseInt(this.formatSize(file.size) || '0');
+      });
 
-    this.totalSizePercent = this.totalSize / 10;
+      this.totalSizePercent = this.totalSize / 10;
 
-    this.productForm.patchValue({ images: [this.files] });
-}
+      this.productForm.patchValue({ images: [this.files] });
+  }
 
-uploadEvent(callback: any) {
-    callback();
-}
+  uploadEvent(callback: any) {
+      callback();
+  }
 
-formatSize(bytes: any) {
+  formatSize(bytes: any) {
     const k = 1024;
     const dm = 3;
     const sizes = this.config.translation.fileSizeTypes;
