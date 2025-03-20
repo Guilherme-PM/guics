@@ -4,7 +4,7 @@ import { ROUTES } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
-import { MyPreset } from '../styles/mytheme';
+import { GuicsTheme } from '../styles/GuicsTheme';
 import { authInterceptor } from './interceptors/auth/auth.interceptor';
 import { errorInterceptor } from './interceptors/error/error.interceptor';
 import { MessageService } from 'primeng/api';
@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     providePrimeNG({ 
       theme: {
-        preset: MyPreset,
+        preset: GuicsTheme,
       }
     }),
     MessageService

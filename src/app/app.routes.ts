@@ -18,7 +18,13 @@ export const ROUTES: Routes = [
       { path: 'category', component: CategoryComponent },
       { path: 'subcategory', component: SubcategoryComponent },
       { path: 'product', component: ProductComponent },
-      { path: 'stock-control', loadChildren: () => import('./pages/stock-control/stock-control.routes').then(a => a.STOCK_CONTROL_ROUTES) }
+      { path: 'stock-control', loadChildren: () => import('./pages/stock-control/stock-control.routes').then(a => a.STOCK_CONTROL_ROUTES) },
+      { 
+        path: 'open-order',
+        children: [
+          { path: 'list', loadComponent: () => import('./pages/open-order-list/open-order-list.component').then(c => c.OpenOrderListComponent) }
+        ]
+      }
     ]
   }
 ];
