@@ -1,12 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { ImportsModule } from '../../imports/imports';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-login',
-    imports: [ReactiveFormsModule, ImportsModule],
+    imports: [ReactiveFormsModule, FloatLabelModule, InputTextModule, FormsModule, CheckboxModule, ButtonModule],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss'
 })

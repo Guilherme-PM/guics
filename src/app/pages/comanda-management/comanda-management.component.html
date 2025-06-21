@@ -1,0 +1,128 @@
+<div class="flex flex-col md:flex-row h-screen p-4 gap-4">
+  <!-- Left side - Comandas list -->
+  <div class="w-full md:w-2/3 overflow-auto">
+    <h2 class="text-2xl font-bold mb-4">Gerenciamento de Comandas</h2>
+
+    <p-tabView>
+      <p-tabPanel header="Todas">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ng-container *ngFor="let comanda of comandas()">
+            <p-card
+              [styleClass]="'cursor-pointer hover:shadow-md transition-all ' + (selectedComanda()?.id === comanda.id ? 'ring-4 ring-primary ring-opacity-50 animate-pulse' : '')"
+              (click)="selectedComanda.set(comanda); showComandaDialog.set(true)"
+            >
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="text-lg font-semibold">
+                    {{ comanda.nickname || 'Mesa ' + comanda.tableNumber }}
+                    <span *ngIf="comanda.nickname">/ Mesa {{ comanda.tableNumber }}</span>
+                  </h3>
+                  <p class="text-xl font-bold mt-2">R$ {{ comanda.amount.toFixed(2) }}</p>
+                </div>
+                <span class="px-2 py-1 text-white rounded-md text-sm" [ngClass]="getStatusColor(comanda.status)">
+                  {{ comanda.status }}
+                </span>
+              </div>
+            </p-card>
+          </ng-container>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Abertas">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- <ng-container *ngFor="let comanda of comandas().filter(c => c.status === 'Aberta')">
+            <p-card
+              [styleClass]="'cursor-pointer hover:shadow-md transition-all'"
+              (click)="selectedComanda.set(comanda); showComandaDialog.set(true)"
+            >
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="text-lg font-semibold">
+                    {{ comanda.nickname }} / Mesa {{ comanda.tableNumber }}
+                  </h3>
+                  <p class="text-xl font-bold mt-2">R$ {{ comanda.amount.toFixed(2) }}</p>
+                </div>
+                <span class="bg-green-500 px-2 py-1 text-white rounded-md text-sm">
+                  {{ comanda.status }}
+                </span>
+              </div>
+            </p-card>
+          </ng-container> -->
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Disponíveis">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- <ng-container *ngFor="let comanda of comandas().filter(c => c.status === 'Disponível')">
+            <p-card
+              [styleClass]="'cursor-pointer hover:shadow-md transition-all'"
+              (click)="selectedComanda.set(comanda); showComandaDialog.set(true)"
+            >
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="text-lg font-semibold">Mesa {{ comanda.tableNumber }}</h3>
+                  <p class="text-xl font-bold mt-2">R$ {{ comanda.amount.toFixed(2) }}</p>
+                </div>
+                <span class="bg-slate-500 px-2 py-1 text-white rounded-md text-sm">
+                  {{ comanda.status }}
+                </span>
+              </div>
+            </p-card>
+          </ng-container> -->
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Reservadas">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- <ng-container *ngFor="let comanda of comandas().filter(c => c.status === 'Reservada')">
+            <p-card
+              [styleClass]="'cursor-pointer hover:shadow-md transition-all'"
+              (click)="selectedComanda.set(comanda); showComandaDialog.set(true)"
+            >
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="text-lg font-semibold">
+                    {{ comanda.nickname }} / Mesa {{ comanda.tableNumber }}
+                  </h3>
+                  <p class="text-xl font-bold mt-2">R$ {{ comanda.amount.toFixed(2) }}</p>
+                </div>
+                <span class="bg-amber-500 px-2 py-1 text-white rounded-md text-sm">
+                  {{ comanda.status }}
+                </span>
+              </div>
+            </p-card>
+          </ng-container> -->
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+
+  <!-- Right side - Actions -->
+  <div class="w-full md:w-1/3 mt-4 md:mt-0">
+    <div class="bg-slate-50 rounded-lg p-4 h-full">
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-2">Pesquisar</h3>
+        <div class="relative">
+          <i class="pi pi-search absolute left-2.5 top-2.5 text-gray-400" style="font-size: 1rem;"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Apelido ou número da mesa"
+            class="pl-8 w-full"
+
+          />
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold">Ações</h3>
+
+        <button pButton label="Criar Nova Comanda" class="w-full p-button-success" (click)="showNewComandaDialog.set(true)"></button>
+        <button pButton label="Reservar Mesa" class="w-full p-button-warning" (click)="showReserveDialog.set(true)"></button>
+        <button pButton label="Transferir Mesa" icon="pi pi-refresh" class="w-full" (click)="showTransferDialog.set(true)"></button>
+        <button pButton label="Imprimir Comanda" icon="pi pi-print" class="w-full" ></button>
+        <button pButton label="Relatório de Vendas" class="w-full p-button-outlined" (click)="showReportDialog.set(true)"></button>
+      </div>
+    </div>
+  </div>
+</div>

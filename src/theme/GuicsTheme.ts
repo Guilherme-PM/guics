@@ -314,17 +314,17 @@ export const GuicsTheme = definePreset(Aura, {
         iconSize: "1rem",
         anchorGutter: "2px",
         primary: {
-            50: "#fbfdf7",
-            100: "#eaf3d6",
-            200: "#daeab6",
-            300: "#c9e196",
-            400: "#b9d775",
-            500: "#a8ce55",
-            600: "#8faf48",
-            700: "#76903b",
-            800: "#5c712f",
-            900: "#435222",
-            950: "#2a3415"
+            "50": "#f7fee7",
+            "100": "#ecfcca",
+            "200": "#d8f999",
+            "300": "#bbf451",
+            "400": "#9ae600",
+            "500": "#7ccf00",
+            "600": "#5ea500",
+            "700": "#497d00",
+            "800": "#3c6300",
+            "900": "#35530e",
+            "950": "#192e03"
         },
         formField: {
             paddingX: "0.75rem",
@@ -5213,5 +5213,5 @@ export const appConfig: ApplicationConfig = {
                preset: GuicsTheme,
             }
         })
-    ]   
+    ]
 };

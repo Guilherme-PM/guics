@@ -1,21 +1,17 @@
-<p-menubar>
+<!-- <p-toolbar>
   <ng-template #start>
-    <nav>
-      <app-sidebar></app-sidebar>
-    </nav>
+    <<pm-drawer></pm-drawer>
+    <app-sidebar></app-sidebar>
   </ng-template>
-  <ng-template #item let-item let-root="root">
-    <a pRipple class="flex items-center p-menubar-item-link">
-      <span>{{ item.label }}</span>
-      <p-badge *ngIf="item.badge" [ngClass]="{ 'ml-auto': !root, 'ml-2': root }" [value]="item.badge" />
-      <span *ngIf="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
-      <i *ngIf="item.items" [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"></i>
-    </a>
+  <ng-template #center>
   </ng-template>
   <ng-template #end>
     <div class="flex items-center gap-2">
-      <input type="text" pInputText placeholder="Pesquisar" class="w-36" />
-      <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+      <input type="text" pInputText placeholder="Pesquisar CTRL + K" pSize="small" fluid/>
+      <p-button icon="pi pi-cog" outlined size="small" class="small"/>
+      <theme-switcher />
     </div>
   </ng-template>
-</p-menubar>
+</p-toolbar> -->
+
+<private-header />

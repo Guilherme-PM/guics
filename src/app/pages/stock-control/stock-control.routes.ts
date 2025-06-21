@@ -8,5 +8,9 @@ export const STOCK_CONTROL_ROUTES: Routes = [
   {
     path: 'movement',
     loadComponent: () => import('./movement/movement.component').then(c => c.MovementComponent)
+  },
+  {
+    path: 'teste',
+    loadComponent: () => import('../comanda-management/comanda-management.component').then(c => c.ComandaManagementComponent)
   }
 ]

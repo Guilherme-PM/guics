@@ -1,1 +1,13 @@
-@use './../../../styles/variables.scss';
+::ng-deep {
+  p-card.default .p-card{
+    background-color: silver;
+  }
+
+  p-card.available .p-card {
+    background-color: green;
+  }
+
+  p-card.occupied .p-card {
+    background-color: red;
+  }
+}

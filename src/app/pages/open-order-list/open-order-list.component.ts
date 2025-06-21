@@ -1,50 +1,83 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
+import { PanelModule } from 'primeng/panel';
+import { PaginatorDTO } from '../../models/paginator/paginator-dto';
+import { OrderService } from '../../services/order/order.service';
+import { PaginatedResultDTO } from '../../models/paginator/paginated-result-dto';
 
 @Component({
   selector: 'app-open-order-list',
-  imports: [DialogModule, ButtonModule, DividerModule, CardModule, CommonModule, FloatLabelModule, InputTextModule],
+  imports: [DialogModule, ButtonModule, DividerModule, CardModule, CommonModule, FloatLabelModule, InputTextModule, PanelModule],
   templateUrl: './open-order-list.component.html',
   styleUrl: './open-order-list.component.scss'
 })
 export class OpenOrderListComponent {
-  orders: any[] = [{name: 'Teste 1', value: 50, time: '1'}, {name: 'Teste 2', value: 50, time: '1'}, {name: 'Teste 3', value: 50, time: '1'}, {name: 'Teste 4', value: 50, time: '1'}];
+  orders: any[] = [];
   filteredOrders: any[] = [];
   searchValue: string = '';
   availableOrders: number = 0;
   occupiedOrders: number = 0;
   totalCards: number = 30; // Número total de cards a serem exibidos
 
-  constructor() { }
+  private readonly orderSvc = inject(OrderService);
+  private timer: any;
 
   ngOnInit(): void {
     this.loadOrders();
+
+    this.timer = setInterval(() => {
+      this.orders.forEach(order => {
+        order['elapsedTime'] = this.getTimeElapsed(order.createdAt); // Atualiza o tempo decorrido
+      });
+    }, 1000);
   }
 
   loadOrders() {
-    // Dados de exemplo
-    const exampleOrders = [
-      { name: 'Guilherme', value: 100, openTime: '10 min', status: 'available' },
-      { name: 'Comanda 2', value: 200, openTime: '20 min', status: 'occupied' },
-      { name: 'Comanda 3', value: 150, openTime: '15 min', status: 'available' },
-      { name: 'Comanda 4', value: 250, openTime: '25 min', status: 'occupied' },
-      { name: 'Comanda 5', value: 300, openTime: '30 min', status: 'available' },
-      { name: 'Comanda 6', value: 350, openTime: '35 min', status: 'occupied' }
-    ];
+    const paginator: PaginatorDTO = { pageNumber: 1, pageSize: 100 };
 
-    // Preencher com cards vazios até o número total desejado
-    this.orders = [...exampleOrders];
-    while (this.orders.length < this.totalCards) {
-      this.orders.push({});
-    }
+    this.orderSvc.listProducts(paginator).subscribe({
+      next: (response: PaginatedResultDTO) => {
+        this.orders = response.items as any;
+      }
+    });
 
     this.updateOrderCounts();
+  }
+
+  getCardClass(order: any): string {
+    if (order.status == 'available') {
+      return 'available'; 
+    } else if (order.status == 'occupied') {
+      return 'occupied'; 
+    } else {
+      return 'default';
+    }
+  }
+
+  getTimeElapsed(createdAt: Date | string | undefined): string {
+    if (!createdAt) return 'N/A';
+
+    const now = new Date();
+    const start = new Date(createdAt); // Converte para Date se for string
+    const diffMs = now.getTime() - start.getTime(); // Diferença em milissegundos
+
+    const hours = Math.floor(diffMs / (1000 * 60 * 60)); // Calcula horas
+    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutos restantes
+    const seconds = Math.floor((diffMs % (1000 * 60)) / 1000); // Segundos restantes
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}min ${seconds}s`;
+    } else if (minutes > 0) {
+      return `${minutes}min ${seconds}s`;
+    } else {
+      return `${seconds}s`;
+    }
   }
 
   filterOrders() {

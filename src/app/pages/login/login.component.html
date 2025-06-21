@@ -18,20 +18,21 @@
         </p-floatlabel>
         <div class="flex justify-between my-6">
           <div class="p-field-checkbox">
-            <input type="checkbox" id="remember" class="p-checkbox p-component">
-            <label for="remember">Lembrar por 30 dias</label>
+            <p-checkbox value="Lembrar por 30 dias" inputId="ny" />
+            <label for="ny" class="ml-2">Lembrar por 30 dias</label>
           </div>
           <a href="#" class="text-primary font-semibold">Esqueceu sua senha?</a>
         </div>
-        <button type="submit" class="w-full p-4" (click)="login()">Entrar na conta</button>
-        <a href="#" class="google-btn mt-6">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" width="25" class="pr-1">
-          Continue com o Google
-        </a>
+        <div class="grid gap-4">
+          <p-button label="Entrar na conta" (click)="login()" fluid/>
+          <p-button label="Continuar com o Google" outlined fluid>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" width="25" class="pr-1">
+          </p-button>
+          <p-button fluid text severity="secondary">
+            Não possui uma conta? <strong>Cadastre-se</strong>
+          </p-button>
+        </div>
       </form>
-      <div class="flex justify-center">
-        <p>Não possui uma conta? <a href="#" class="text-primary font-semibold"> Cadastre-se</a></p>
-      </div>
     </div>
   </div>
 

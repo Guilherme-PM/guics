@@ -1,0 +1,16 @@
+::ng-deep {
+  p-button.small button {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  p-toolbar .p-toolbar {
+    border-radius: 0px;
+    border: none;
+  }
+
+  .p-popover::before,
+  .p-popover::after {
+    display: none !important;
+  }
+}

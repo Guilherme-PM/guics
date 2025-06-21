@@ -1,17 +1,19 @@
-<div class="flex flex-wrap">
+<div class="flex flex-wrap overflow-hidden">
   <!-- Left side: Cards -->
-  <div class="w-full md:w-2/3 p-4">
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      <div *ngFor="let order of orders; let i = index" class="p-2">
-        <p-card class="shadow-lg h-full flex flex-col justify-between" [header]="order.name || 'Comanda ' + (i + 1)">
-          <div>
-            <p>Valor: {{ order.value ? (order.value | currency: 'BRL') : 'N/A' }}</p>
-            <p>Tempo Aberta: {{ order.openTime || 'N/A' }}</p>
-          </div>
-        </p-card>
+  <p-panel class="w-full md:w-2/3">
+    <div class="p-4 h-[80vh] overflow-auto"> <!-- Altura fixa ou máxima com overflow -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        @for(order of orders; track order.idOrder){
+          <p-card class="shadow-lg h-full flex flex-col justify-between" [header]="order.tableNumber || order.nickname" [ngClass]="getCardClass(order)">
+            <div>
+              <p>Valor: {{ order.value ? (order.value | currency: 'BRL') : 'N/A' }}</p>
+              <p>Tempo Aberta: {{ getTimeElapsed(order.createdAt) || 'N/A' }}</p>
+            </div>
+          </p-card>
+        }
       </div>
     </div>
-  </div>
+  </p-panel>
 
   <!-- Right side: Options -->
   <div class="w-full md:w-1/3 p-4">

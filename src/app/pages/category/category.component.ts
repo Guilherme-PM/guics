@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ImportsModule } from '../../imports/imports';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CategoryRegisterDTO } from '../../models/category/category-register-dto';
-import { UserDTO } from '../../models/user-dto';
 import { CategoryService } from '../../services/category/category.service';
 import { PaginatorDTO } from '../../models/paginator/paginator-dto';
 import { PaginatedResultDTO } from '../../models/paginator/paginated-result-dto';
 import { CategoryListDTO } from '../../models/category/category-list-dto';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { isNotNullOrEmpty } from '../../helper/validation-helper';
+import { isNotNullOrEmpty } from '../../core/helper/validation-helper';
 import { CategoryUpdateDTO } from '../../models/category/category-update-dto';
 import { ResponseDTO } from '../../models/response-dto';
 
@@ -28,8 +26,8 @@ export class CategoryComponent implements OnInit {
   selectedCategories!: CategoryUpdateDTO[] | null;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private categorySvc: CategoryService, 
+    private formBuilder: FormBuilder,
+    private categorySvc: CategoryService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService){ }
 
@@ -38,10 +36,10 @@ export class CategoryComponent implements OnInit {
       name: ['', [Validators.required]],
       description: ['']
     });
-    
+
     this.listCategories();
   }
-  
+
   listCategories(){
     this.loading = true;
     const paginator: PaginatorDTO = { pageNumber: 1, pageSize: 10 };
@@ -60,16 +58,16 @@ export class CategoryComponent implements OnInit {
   }
 
   saveCategory(){
-    if (this.categoryForm.invalid) 
+    if (this.categoryForm.invalid)
       return;
-  
+
     this.categorySvc.registerCategory(this.categoryForm.value).subscribe({
       next: (response: ResponseDTO) => {
         if(!response.success){
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: `${response.message}`, life: 5000 });
           return;
         }
-        
+
         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: `${response.message}`, life: 3000 });
         this.categoryDialog = false;
         this.listCategories();
@@ -89,9 +87,9 @@ export class CategoryComponent implements OnInit {
   onRowEditSave(category: CategoryUpdateDTO) {
     if (isNotNullOrEmpty(category.name)) {
       const originalCategory = { ...this.clonedCategories[category.idCategory] };
-  
+
       delete this.clonedCategories[category.idCategory];
-  
+
       this.categorySvc.updateCategory(category.idCategory, category).subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Categoria editada', life: 3000 });
@@ -101,26 +99,26 @@ export class CategoryComponent implements OnInit {
           this.categories = this.categories.map((cat: CategoryListDTO) =>
             cat.idCategory === category.idCategory ? { ...originalCategory } : cat
           );
-  
+
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: `Erro ao editar a categoria: ${error.error.Message}`, life: 3000 });
         }
       });
-  
+
     } else {
       const originalCategory = this.clonedCategories[category.idCategory];
-      
-      if (originalCategory) 
+
+      if (originalCategory)
         category.name = originalCategory.name;
-      
+
       this.categories = this.categories.map((cat: CategoryListDTO) =>
         cat.idCategory === category.idCategory ? { ...originalCategory } : cat
       );
-      
+
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Nome inválido', life: 3000 });
     }
   }
-  
-  
+
+
   onRowEditCancel(category: CategoryListDTO, index: number) {
     this.categories[index] = this.clonedCategories[category.idCategory];
     delete this.clonedCategories[category.idCategory];

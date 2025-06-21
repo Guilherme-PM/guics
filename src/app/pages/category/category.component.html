@@ -1,7 +1,7 @@
 <p-toolbar styleClass="mb-12">
   <ng-template #start>
-    <p-button label="Nova" icon="pi pi-plus" class="mr-2" (click)="showDialogRegister()" />
-    <p-button severity="danger" label="Deletar" icon="pi pi-trash" outlined (click)="deleteSelectedCategories()" [disabled]="!selectedCategories || !selectedCategories.length"/>
+    <p-button label="Nova" icon="pi pi-plus" class="mr-2" (click)="showDialogRegister()" outlined />
+    <p-button severity="danger" label="Deletar" icon="pi pi-trash" text (click)="deleteSelectedCategories()" [disabled]="!selectedCategories || !selectedCategories.length"/>
   </ng-template>
 
   <ng-template #end>

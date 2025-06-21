@@ -1,0 +1,65 @@
+<!-- Botões de Tema -->
+<div class="flex items-center justify-center space-x-2">
+	<p-button	outlined size="small" icon="pi pi-sun" class="dark:text-white small" (click)="onThemeToggler()"/>
+	<p-button outlined size="small" icon="pi pi-palette" class="dark:text-white small" (click)="pop.toggle($event)"/>
+</div>
+
+<p-popover #pop>
+	<div class="flex flex-col gap-2 pr-4 mb-2">
+		<span class="text-sm font-medium">Cores Primárias</span>
+
+		<div class="grid grid-cols-9 gap-2">
+			@for (primaryColor of primaryColors(); track primaryColor.name) {
+				<button
+					type="button"
+					[title]="primaryColor.name"
+					(click)="updateColors($event, 'primary', primaryColor)"
+					class="outline outline-2 outline-offset-1 outline-transparent cursor-pointer p-0 rounded-full w-5 h-5"
+					[ngStyle]="{
+						'background-color': primaryColor.name === 'noir' ? 'var(--text-color)' : primaryColor.palette['500'],
+						'outline-color': selectedPrimaryColor() === primaryColor.name ? 'var(--p-primary-color)' : ''
+					}">
+				</button>
+			}
+		</div>
+	</div>
+
+	<!-- Surface Colors -->
+	<div class="flex flex-col gap-2 pr-2 mb-2">
+		<span class="text-sm font-medium">Superfície</span>
+		<div class="flex flex-wrap gap-2">
+			@for (surface of surfaces; track surface.name) {
+				<button
+					type="button"
+					[title]="surface.name"
+					(click)="updateColors($event, 'surface', surface)"
+					class="outline outline-2 outline-offset-1 outline-transparent cursor-pointer p-0 rounded-[50%] w-5 h-5"
+					[ngStyle]="{
+							'background-color': surface.palette['500'],
+							'outline-color': selectedSurfaceColor() === surface.name ? 'var(--p-primary-color)' : ''
+					}"
+				></button>
+			}
+		</div>
+	</div>
+
+	<!-- Presets -->
+	<div class="flex flex-col gap-2 w-full">
+		<span class="text-sm font-medium">Predefinido</span>
+		<div class="w-full p-1 rounded-xl border border-[#00000003]">
+			<p-selectbutton
+				[options]="presets"
+				[ngModel]="selectedPreset()"
+				(ngModelChange)="onPresetChange($event)"
+				[unselectable]="false"
+				size="small">
+			</p-selectbutton>
+		</div>
+	</div>
+
+	<!-- Ripple Effect -->
+	<div class="flex flex-col gap-2 w-full pt-4 pb-2">
+		<span class="text-sm font-medium">Efeito de Ondulação</span>
+		<p-toggleswitch [(ngModel)]="ripple"></p-toggleswitch>
+	</div>
+</p-popover>
