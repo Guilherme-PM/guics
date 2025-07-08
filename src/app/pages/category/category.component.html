@@ -1,4 +1,4 @@
-<p-toolbar styleClass="mb-12">
+<!-- <p-toolbar styleClass="mb-12">
   <ng-template #start>
     <p-button label="Nova" icon="pi pi-plus" class="mr-2" (click)="showDialogRegister()" outlined />
     <p-button severity="danger" label="Deletar" icon="pi pi-trash" text (click)="deleteSelectedCategories()" [disabled]="!selectedCategories || !selectedCategories.length"/>
@@ -23,7 +23,7 @@
   [(selection)]="selectedCategories"
   sortMode="multiple"
   [globalFilterFields]="['name', 'description', 'createdAt', 'updatedAt', 'status']">
-  
+
   <ng-template #caption>
     <div class="flex">
       <p-button label="Limpar filtros" [outlined]="true" icon="pi pi-filter-slash" (click)="clearFilters(tableViewCategories)" />
@@ -44,7 +44,7 @@
       <th style="min-width: 7rem"></th>
       <th style="min-width: 15rem" pSortableColumn="name">
         <div class="flex items-start">
-          Nome 
+          Nome
           <p-columnFilter type="text" field="name" display="menu" />
           <p-sortIcon field="name" />
         </div>
@@ -176,4 +176,49 @@
     <p-button label="Cancelar" icon="pi pi-times" text (click)="categoryDialog = false" />
     <p-button label="Salvar" icon="pi pi-check" (click)="saveCategory()" />
   </ng-template>
-</p-dialog>
+</p-dialog> -->
+
+<pm-panel title="Categorias" subTitle="Organize seus produtos em categorias e subcategorias" [headerPanel]="true" class="mx-4">
+  <ng-template #actionButton>
+    <pm-button label="Nova Categoria" icon="plus" (onClick)="showDialogRegister()" />
+  </ng-template>
+</pm-panel>
+
+<div class="grid grid-cols-4 gap-4 mx-4 mt-4">
+  <pm-card title="Total de Produtos" content="5" subContent="produtos cadastrados" icon="tags" />
+  <pm-card title="Categorias Ativas" content="6" subContent="em uso" icon="folder-open" />
+  <pm-card title="Principais" content="3" subContent="categorias principais" icon="folder" />
+  <pm-card title="Produtos" content="143" subContent="produtos categorizados" icon="tags" />
+</div>
+
+<pm-panel title="Filtros" subTitle="Filtre e busque categorias" class="mx-4">
+  <div class="flex flex-col sm:flex-row gap-4">
+    <pm-input placeholder="Buscar categorias..." class="flex-1" icon="search" />
+    <div class="flex gap-2">
+      <pm-button outlined label="Todas" [selected]="statusFilter === 'all'" (onClick)="setStatusFilter('all')"/>
+      <pm-button outlined label="Ativas" type="outlined" (onClick)="setStatusFilter('active')" />
+      <pm-button outlined label="Inativas" type="outlined" (onClick)="setStatusFilter('inactive')" />
+    </div>
+  </div>
+</pm-panel>
+
+<pm-panel title="Lista de Categorias" [subTitle]="totalSubcategory + ' categorias encontradas'" class="mx-4">
+  <pm-table [configTable]="table" />
+</pm-panel>
+
+<pm-dialog icon="tags" title="Nova Categoria" subTitle="Crie uma nova categoria ou subcategoria" [(visible)]="categoryDialog">
+  <form [formGroup]="categoryForm">
+    <div class="grid grid-cols-2 gap-6">
+      <pm-card title="Informações Básicas" titleColor="text-primary-400">
+        <div class="grid gap-3">
+          <pm-input label="Nome da Categoria" placeholder="Ex: Eletrônicos" controlName="name"/>
+          <pm-textarea label="Descrição" placeholder="Descreva a categoria..." controlName="description" />
+          <pm-select label="Nome da Categoria" placeholder="Categorias" controlName="name"/>
+        </div>
+      </pm-card>
+      <pm-card title="Configurações" titleColor="text-primary-400">
+        Sim e vc?
+      </pm-card>
+    </div>
+  </form>
+</pm-dialog>

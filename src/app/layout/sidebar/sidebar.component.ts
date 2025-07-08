@@ -9,19 +9,19 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
-  selector: 'app-sidebar',
-  imports: [DrawerModule, ButtonModule, AvatarModule, Ripple, StyleClass, RouterModule, CommonModule],
+  selector: 'private-sidebar',
+  imports: [DrawerModule, ButtonModule, AvatarModule, RouterModule, CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
+export class PrivateSidebarComponent {
   @ViewChild('drawerRef') drawerRef!: Drawer;
   openMenus: boolean = true;
   user: any;
   visible: boolean = false;
 
   constructor(private authSvc: AuthService, private router: Router) { }
-  
+
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
   }
@@ -29,7 +29,7 @@ export class SidebarComponent {
   closeCallback(e: any): void {
     this.drawerRef.close(e);
   }
-  
+
   closeDrawer() {
     this.visible = false;
   }

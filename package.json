@@ -21,6 +21,7 @@
     "@primeng/themes": "^19.0.5",
     "@tailwindcss/postcss": "^4.0.6",
     "chart.js": "^4.4.7",
+    "lucide-angular": "^0.522.0",
     "pm-angular-components": "^0.1.0",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.6",

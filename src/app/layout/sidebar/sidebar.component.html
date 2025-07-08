@@ -1,87 +1,192 @@
-<p-drawer [(visible)]="visible">
-  <ng-template #header>
-      <div class="flex gap-2 items-center">
-        <img src="images/logo.png" width="175">
-      </div>
-  </ng-template>
-  <div class="overflow-y-auto">
-    <ul class="list-none m-0 p-0">
-      <li>
-        <div
-        pRipple
-        pStyleClass="@next"
-        enterFromClass="hidden"
-        enterActiveClass="animate-slidedown"
-        leaveToClass="hidden"
-        leaveActiveClass="animate-slideup"
-        class="p-2 flex items-center justify-between cursor-pointer p-ripple p-surface-200"
-        >
-          <span class="font-medium">MENUS</span>
-          <i class="ml-1 pi pi-chevron-down"></i>
-        </div>
-        <ul class="list-none p-0 m-0 overflow-hidden p-surface-300">
-          <li>
-            <a pRipple class="flex items-center cursor-pointer p-6 rounded-border duration-150 transition-colors p-ripple">
-              <i class="pi pi-home mr-2"></i>
-              <span class="font-medium">Dashboard</span>
-            </a>
-          </li>
-          <li>
-            <a href="admin/category" pRipple class="p-surface-300 no-underline flex items-center cursor-pointer p-6 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-              <i class="pi pi-home mr-2"></i>
-              <span class="font-medium">Categorias</span>
-            </a>
-          </li>
-          <li>
-            <a href="admin/subcategory" pRipple class="p-surface-300 no-underline flex items-center cursor-pointer p-6 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-              <i class="pi pi-home mr-2"></i>
-              <span class="font-medium">Sub Categorias</span>
-            </a>
-          </li>
-          <li>
-            <a href="admin/product" pRipple class="p-surface-300 no-underline flex items-center cursor-pointer p-6 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-              <i class="pi pi-home mr-2"></i>
-              <span class="font-medium ">Produtos</span>
-            </a>
-          </li>
-          <li>
-            <a href="admin/stock-control/stock-adjustment" pRipple class="p-surface-300 no-underline flex items-center cursor-pointer p-6 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-              <i class="pi pi-home mr-2"></i>
-              <span class="font-medium ">Controle de Estoque</span>
-            </a>
-          </li>
-          <li>
-            <a href="admin/stock-control/movement" pRipple class="p-surface-300 no-underline flex items-center cursor-pointer p-6 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-              <i class="pi pi-home mr-2"></i>
-              <span class="font-medium ">Movimentações</span>
-            </a>
-          </li>
-          <li>
-            <a href="admin/open-order/list" pRipple class="p-surface-300 no-underline flex items-center cursor-pointer p-6 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-              <i class="pi pi-home mr-2"></i>
-              <span class="font-medium ">Comandas Abertas</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+<div class="group peer hidden md:block" data-collapsible="" data-side="left" data-state="expanded"
+  data-variant="sidebar">
+  <div
+    class="relative h-svh w-[--sidebar-width] bg-transparent transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0 group-data-[side=right]:rotate-180 group-data-[collapsible=icon]:w-[--sidebar-width-icon]">
   </div>
-  <ng-template #footer>
-      <div class="flex gap-2 items-center justify-between">
-        <div class="flex items-center">
-          <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"/>
-          <span class="ml-2 font-bold capitalize">{{ user.name }}</span>
+  <div
+    class="fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l border-r border-green-800/20"
+    __v0_r="0,1279,1309">
+    <div
+      class="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow"
+      data-sidebar="sidebar">
+      <div class="flex flex-col gap-2 border-b border-green-800/20 p-4" data-sidebar="header" __v0_r="0,1342,1376">
+        <div class="flex items-center gap-2" __v0_r="0,1401,1426">
+          <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center" __v0_r="0,1453,1519"><svg
+              xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-package w-5 h-5 text-white" __v0_r="0,1552,1572">
+              <path d="m7.5 4.27 9 5.15"></path>
+              <path
+                d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z">
+              </path>
+              <path d="m3.3 7 8.7 5 8.7-5"></path>
+              <path d="M12 22V12"></path>
+            </svg></div>
+          <div>
+            <h2 class="font-semibold text-green-400" __v0_r="0,1635,1665">ERP System</h2>
+            <p class="text-xs text-muted-foreground" __v0_r="0,1707,1738">Gestão Empresarial</p>
+          </div>
         </div>
-        <button
-          pButton
-          label="Deslogar"
-          icon="pi pi-sign-out"
-          class=""
-          severity="danger"
-          text
-          (click)="logout()"></button>
       </div>
-  </ng-template>
-</p-drawer>
-
-<p-button (click)="visible = true" icon="pi pi-bars" text class="small"/>
+      <div class="border-b border-green-800/20 p-4" __v0_r="0,1802,1836"><button
+          class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:text-accent-foreground h-10 w-full justify-between hover:bg-green-600/10 p-3"
+          __v0_r="0,1941,1991" type="button" id="radix-«r0»" aria-haspopup="menu" aria-expanded="false"
+          data-state="closed">
+          <div class="flex items-center gap-3" __v0_r="0,2020,2045">
+            <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center" __v0_r="0,2076,2142"><svg
+                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-building2 w-4 h-4 text-white" __v0_r="0,2181,2201">
+                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                <path d="M10 6h4"></path>
+                <path d="M10 10h4"></path>
+                <path d="M10 14h4"></path>
+                <path d="M10 18h4"></path>
+              </svg></div>
+            <div class="text-left" __v0_r="0,2255,2266">
+              <div class="font-medium text-green-400 text-sm truncate max-w-[140px]" __v0_r="0,2299,2358">Restaurante
+                Sabor &amp; Arte</div>
+              <div class="flex items-center gap-2" __v0_r="0,2419,2444">
+                <div
+                  class="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-xs bg-purple-500 text-white"
+                  __v0_r="1,2499,2559" data-v0-t="badge">Premium</div>
+                <div class="w-2 h-2 rounded-full bg-green-500" __v0_r="1,2697,2836"></div>
+              </div>
+            </div>
+          </div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-chevron-down w-4 h-4 text-muted-foreground" __v0_r="0,2956,2987">
+            <path d="m6 9 6 6 6-6"></path>
+          </svg>
+        </button></div>
+      <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto" data-sidebar="content">
+        <div class="relative flex w-full min-w-0 flex-col p-2" data-sidebar="group">
+          <div
+            class="ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-none transition-[margin,opa] duration-200 ease-linear focus-visible:ring-2 [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 text-green-400"
+            data-sidebar="group-label" __v0_r="0,1930,1946">Menu Principal</div>
+          <div class="w-full text-sm" data-sidebar="group-content">
+            <ul class="flex w-full min-w-0 flex-col gap-1" data-sidebar="menu">
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/dashboard"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-home w-4 h-4" __v0_r="0,2468,2477">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg><span>Dashboard</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/produtos"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-package w-4 h-4" __v0_r="0,2468,2477">
+                    <path d="m7.5 4.27 9 5.15"></path>
+                    <path
+                      d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z">
+                    </path>
+                    <path d="m3.3 7 8.7 5 8.7-5"></path>
+                    <path d="M12 22V12"></path>
+                  </svg><span>Produtos</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/categorias"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-tags w-4 h-4" __v0_r="0,2468,2477">
+                    <path d="m15 5 6.3 6.3a2.4 2.4 0 0 1 0 3.4L17 19"></path>
+                    <path
+                      d="M9.586 5.586A2 2 0 0 0 8.172 5H3a1 1 0 0 0-1 1v5.172a2 2 0 0 0 .586 1.414L8.29 18.29a2.426 2.426 0 0 0 3.42 0l3.58-3.58a2.426 2.426 0 0 0 0-3.42z">
+                    </path>
+                    <circle cx="6.5" cy="9.5" r=".5" fill="currentColor"></circle>
+                  </svg><span>Categorias</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/estoque"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-warehouse w-4 h-4" __v0_r="0,2468,2477">
+                    <path
+                      d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z">
+                    </path>
+                    <path d="M6 18h12"></path>
+                    <path d="M6 14h12"></path>
+                    <rect width="12" height="12" x="6" y="10"></rect>
+                  </svg><span>Estoque</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/comandas"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-shopping-cart w-4 h-4" __v0_r="0,2468,2477">
+                    <circle cx="8" cy="21" r="1"></circle>
+                    <circle cx="19" cy="21" r="1"></circle>
+                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                  </svg><span>Comandas</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/clientes"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-users w-4 h-4" __v0_r="0,2468,2477">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg><span>Clientes</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/fornecedores"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-truck w-4 h-4" __v0_r="0,2468,2477">
+                    <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                    <path d="M15 18H9"></path>
+                    <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+                    <circle cx="17" cy="18" r="2"></circle>
+                    <circle cx="7" cy="18" r="2"></circle>
+                  </svg><span>Fornecedores</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/relatorios"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-bar-chart3 w-4 h-4" __v0_r="0,2468,2477">
+                    <path d="M3 3v18h18"></path>
+                    <path d="M18 17V9"></path>
+                    <path d="M13 17V5"></path>
+                    <path d="M8 17v-3"></path>
+                  </svg><span>Relatórios</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/configuracoes"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-settings w-4 h-4" __v0_r="0,2468,2477">
+                    <path
+                      d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+                    </path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg><span>Configurações</span></a></li>
+              <li class="group/menu-item relative" data-sidebar="menu-item"><a href="/claims"
+                  class="peer/menu-button ring-sidebar-ring active:bg-sidebar-accent active:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 hover:text-sidebar-accent-foreground h-8 text-sm data-[active=true]:bg-green-600/20 data-[active=true]:text-green-400 hover:bg-green-600/10"
+                  data-active="false" data-sidebar="menu-button" data-size="default" __v0_r="0,2272,2364"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-shield w-4 h-4" __v0_r="0,2468,2477">
+                    <path
+                      d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
+                    </path>
+                  </svg><span>Claims</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 border-t border-green-800/20 p-4" data-sidebar="footer" __v0_r="0,2786,2820">
+        <div class="text-xs text-muted-foreground" __v0_r="0,2845,2876">© 2024 ERP System v2.1.0</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+@if(visible){
+	<div class="fixed inset-0 z-40 bg-black opacity-50"></div>
+	<div [@dialogAnimation]="animationState" class="fixed inset-0 z-50 flex items-center justify-center">
+		<div cdkDrag
+			class="bg-[#0a0a0a] grid w-full max-w-2xl gap-4 rounded-lg border-2 border-zinc-900 bg-background p-6 shadow-lg"
+			style="pointer-events: auto;">
+			<div cdkDragHandle class="cursor-move">
+				<div class="flex items-center justify-between">
+
+					<h2 class="text-lg font-semibold leading-none tracking-tight text-green-400 flex items-center gap-2">
+						<lucide-angular [name]="icon()" />
+						{{ title() }}
+					</h2>
+					<pm-button text icon="x" (onClick)="closeDialog()" />
+				</div>
+				<p class="text-sm text-muted-foreground mt-1 pl-1">{{ subTitle() }}</p>
+			</div>
+			<div class="mt-4">
+				<ng-content></ng-content>
+			</div>
+		</div>
+	</div>
+}

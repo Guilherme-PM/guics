@@ -1,0 +1,77 @@
+<div class="p-6 pt-0">
+	<div class="rounded-md border border-green-800/20 overflow-hidden">
+		<div class="relative w-full overflow-auto">
+			<table class="w-full caption-bottom text-sm">
+				<thead>
+					<tr
+						class="border-b border-stone-800 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted bg-green-900/10">
+						@for (col of configTable()?.columns; track col.id) {
+						<th class="h-12 px-4 text-left align-middle text-muted-foreground font-medium">{{ col.label }}</th>
+						}
+						@for(button of configTable()?.buttons; track button) {
+						<th class="h-12 px-4 text-left align-middle text-muted-foreground font-medium"></th>
+						}
+					</tr>
+				</thead>
+				<tbody>
+					@for (row of configTable()?.data; track row) {
+					<tr class="border-b border-stone-800 transition-colors data-[state=selected]:bg-muted hover:bg-primary-900/5">
+						@for (col of configTable()?.columns; track col) {
+						@if(col.dualTextColor){
+						<td class="p-4 align-middle">
+							<div class="flex items-center gap-3">
+								<div class="w-4 h-4 rounded-full" [ngStyle]="{backgroundColor: row[col.dualTextColor.colorHEX]}"></div>
+								<div>
+									<div class="font-medium text-primary-400">{{ row[col.dualTextColor.title] }}</div>
+									<div class="text-sm text-muted-foreground text-zinc-400 text-normal">{{
+										row[col.dualTextColor.subTitle] }}</div>
+								</div>
+							</div>
+						</td>
+						}
+						@if(col.tag){
+						<td class="p-4 align-middle">
+							<div [ngClass]="col.tag.styleFunc ? col.tag.styleFunc(row) : col.tag.style"
+								class="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground text-xs">
+								@if(col.tag!.icon){
+								<lucide-angular [name]="col.tag!.icon(row)" [ngClass]="col.tag.iconColor"
+									class="mr-1 w[24px] h[24px]"></lucide-angular>
+								}
+								{{ row[col.id] + col.suffix || '' }}
+							</div>
+						</td>
+						}
+						@if(col.badgeColorHEX){
+						<td class="p-4 align-middle">
+							<div class="flex items-center gap-2">
+								@if(row[col.id]){
+								<div class="w-3 h-3 rounded-full" [ngStyle]="{ backgroundColor: row[col.badgeColorHEX] }"></div>
+								}
+								<span class="text-sm">{{ row[col.id] || '-' }}</span>
+							</div>
+						</td>
+						}
+						@if(col.type === 'date'){
+						<td class="p-4 align-middle">
+							{{ row[col.id] | date: 'dd/MM/yyyy' }}
+						</td>
+						}
+						}
+						@if(configTable()?.buttons){
+						<td class="p-4 align-middle">
+							@for(button of configTable()?.buttons; track button) {
+							<button
+								class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background
+								transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none
+								disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
+								type="button"><lucide-angular [name]="button.icon" /></button>
+							}
+						</td>
+						}
+					</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

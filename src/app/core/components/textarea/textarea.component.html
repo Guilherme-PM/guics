@@ -1,0 +1,9 @@
+@if(controlName && controlContainer){
+	<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">{{ label() }} {{controlContainer.control!.get(controlName)?.invalid ? "*" : "" }}</label>
+	<div class="space-y-2"><textarea
+			class="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-primary-400 resize-none h-[80px] mt-2
+								focus:outline-primary-400 focus:outline-2 focus:outline-color-primary-400
+								placeholder:text-muted-foreground focus-visible:outline-offset-2 focus-visible:outline-primary-600!
+								disabled:cursor-not-allowed disabled:opacity-50 bg-background/50 border-primary-800/20 focus:border-primary-600"
+			[placeholder]="placeholder()" [name]="controlName"></textarea></div>
+}

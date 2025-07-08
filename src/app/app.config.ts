@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { ROUTES } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -8,6 +8,7 @@ import { errorInterceptor } from './core/interceptors/error/error.interceptor';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 import { GuicsTheme } from '../theme/GuicsTheme';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ArrowUp, ChevronUp, Ellipsis, Folder, FolderOpen, Home, LucideAngularModule, Plus, Search, Table2, Tags, User, X } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
         preset: GuicsTheme,
       }
     }),
+    importProvidersFrom(LucideAngularModule.pick({ Home, User, Tags, Folder, FolderOpen, Search, Ellipsis, Table2, X, Plus, ChevronUp })),
     MessageService,
     ConfirmationService
   ]
