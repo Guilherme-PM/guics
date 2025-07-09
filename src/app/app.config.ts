@@ -8,7 +8,7 @@ import { errorInterceptor } from './core/interceptors/error/error.interceptor';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 import { GuicsTheme } from '../theme/GuicsTheme';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ArrowUp, ChevronUp, Ellipsis, Folder, FolderOpen, Home, LucideAngularModule, Plus, Search, Table2, Tags, User, X } from 'lucide-angular';
+import { ChevronDown, ChevronUp, Ellipsis, Folder, FolderOpen, Home, LucideAngularModule, Plus, Search, Table2, Tags, User, X } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
         preset: GuicsTheme,
       }
     }),
-    importProvidersFrom(LucideAngularModule.pick({ Home, User, Tags, Folder, FolderOpen, Search, Ellipsis, Table2, X, Plus, ChevronUp })),
+    importProvidersFrom(LucideAngularModule.pick({ Home, User, Tags, Folder, FolderOpen, Search, Ellipsis, Table2, X, Plus, ChevronUp, ChevronDown })),
     MessageService,
     ConfirmationService
   ]

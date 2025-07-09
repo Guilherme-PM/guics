@@ -36,6 +36,17 @@ export class CategoryComponent implements OnInit {
   totalSubcategory: number = 0;
   table!: PmTableConfig;
 
+  categories2: any[] = [
+    {
+      id: 1,
+      label: 'Bebidas'
+    },
+    {
+      id: 2,
+      label: 'Salgadinhos'
+    }
+  ]
+
   mockData = [
     {
       name: 'Bebidas',

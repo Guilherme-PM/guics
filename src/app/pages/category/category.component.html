@@ -213,7 +213,7 @@
         <div class="grid gap-3">
           <pm-input label="Nome da Categoria" placeholder="Ex: Eletrônicos" controlName="name"/>
           <pm-textarea label="Descrição" placeholder="Descreva a categoria..." controlName="description" />
-          <pm-select label="Nome da Categoria" placeholder="Categorias" controlName="name"/>
+          <pm-select label="Nome da Categoria" placeholder="Categorias" controlName="name" [options]="categories2" optionLabel="label" optionValue="id"/>
         </div>
       </pm-card>
       <pm-card title="Configurações" titleColor="text-primary-400">

@@ -1,5 +1,6 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, Input } from '@angular/core';
+import { Component, inject, input, Input, OnInit } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
 
@@ -7,9 +8,16 @@ import { LucideAngularModule } from 'lucide-angular';
   selector: 'pm-select',
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './select.component.html',
-  styleUrl: './select.component.scss'
+  styleUrl: './select.component.scss',
+  animations: [
+    trigger('rotateChevron', [
+      state('up', style({ transform: 'rotate(0deg)' })),
+      state('down', style({ transform: 'rotate(180deg)' })),
+      transition('up <=> down', animate('300ms ease-in-out')),
+    ]),
+  ],
 })
-export class SelectComponent {
+export class SelectComponent implements OnInit {
   @Input() controlName!: string;
 
   readonly controlContainer = inject(ControlContainer, { optional: true });
@@ -25,4 +33,10 @@ export class SelectComponent {
 
   readonly optionLabel = input<string>('label');
   readonly optionValue = input<string>('value');
+
+  openSelect: boolean = false;
+
+  ngOnInit(): void {
+    this.openSelect = false;
+  }
 }

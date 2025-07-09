@@ -1,42 +1,37 @@
-<!-- <label for="categoria" class="block mb-2 text-sm font-medium text-gray-700">Categoria</label>
-<select id="categoria" class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&amp;&gt;span]:line-clamp-1">
-  <option value="">Selecione</option>
-  <option value="roupas">Roupas</option>
-  <option value="beleza">Beleza</option>
-</select> -->
-
 @if(controlName && controlContainer){
-  <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pb-2">{{
-    label() }} {{controlContainer.control!.get(controlName)?.invalid ? "*" : "" }}</label>
-  <div class="flex-1" [ngClass]="class()">
-    <div class="relative">
-      <button [ngClass]="{ 'pl-10': icon(), 'mt-2': label() }"
-        class="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-primary-400
+<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pb-2">{{
+  label() }} {{controlContainer.control!.get(controlName)?.invalid ? "*" : "" }}</label>
+<div class="flex-1" [ngClass]="class()">
+  <div class="relative">
+    <button [ngClass]="{ 'pl-10': icon(), 'mt-2': label() }" (click)="openSelect = !openSelect"
+      class="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-primary-400
                   focus:outline-primary-400 focus:outline-2 focus:outline-color-primary-400
                   placeholder:text-muted-foreground focus-visible:outline-offset-2 focus-visible:outline-primary-600!
                   disabled:cursor-not-allowed disabled:opacity-50 bg-background/50 border-primary-800/20 focus:border-primary-600">{{ placeholder() }}</button>
-      <lucide-angular [name]="'chevron-up'"
-        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 ml-[-5px]" />
-      <div class="mt-2">
-        <div class="absolute w-full rounded-lg border bg-[#090909] border-primary-800/20 p-1 shadow-lg"
-          style="transform-origin: center top; border-radius: 12px; will-change: auto;">
-          <div class="py-2 relative">
-            @if(filter()){
-              <lucide-angular name="search" class="absolute left-4 top-3  w-4 ml-[-5px]" />
-              <input [ngClass]="{ 'mt-2': label() }" class="pl-8 flex h-10 rounded-md border text-sm w-[90%] mx-3 pl-3
+    <lucide-angular [name]="'chevron-up'" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4"
+      [ngClass]="openSelect ? 'rotate-180' : 'rotate-0'" />
+    @if(openSelect){
+    <div class="mt-2">
+      <div class="absolute w-full rounded-lg border bg-[#090909] border-primary-800/20 p-1 shadow-lg"
+        style="transform-origin: center top; border-radius: 12px; will-change: auto;">
+        <div class="py-2 relative">
+          @if(filter()){
+          <lucide-angular name="search" class="absolute left-4 top-3  w-4 ml-[-5px]" />
+          <input [ngClass]="{ 'mt-2': label() }" class="pl-8 flex h-10 rounded-md border text-sm w-[90%] mx-3 pl-3
               placeholder:text-muted-foreground bg-background/50 border-primary-800/20"
-                placeholder="Buscar categorias..." />
-              <div class="mx-5 my-2.5 border-t border-primary-800/10"></div>
-            }
-            @for(option of options(); track option){
-              <button
-                class="relative flex w-full items-center px-4 py-2.5 text-sm rounded-md transition-colors duration-150 focus:outline-none text-neutral-400">
-                <div class="w-4 h-4 mr-2 relative"></div>{{ option[optionLabel()] }}
-              </button>
-            }
-          </div>
+            placeholder="Buscar categorias..." />
+          <div class="mx-5 my-2.5 border-t border-primary-800/10"></div>
+          }
+          @for(option of options(); track option){
+          <button
+            class="relative flex w-full items-center px-4 py-2.5 text-sm rounded-md transition-colors duration-150 focus:outline-none text-neutral-400">
+            <div class="w-4 h-4 mr-2 relative"></div>{{ option[optionLabel()] }}
+          </button>
+          }
         </div>
       </div>
     </div>
+    }
   </div>
+</div>
 }
