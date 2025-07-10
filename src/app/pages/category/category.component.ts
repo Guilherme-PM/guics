@@ -1,3 +1,4 @@
+import { SwitchComponent } from './../../core/components/switch/switch.component';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category/category.service';
@@ -20,7 +21,8 @@ import { SelectComponent } from '../../core/components/select/select.component';
 
 @Component({
   selector: 'app-category',
-  imports: [FormsModule, ReactiveFormsModule, CardComponent, PanelComponent, InputComponent, ButtonComponent, TableComponent, DialogComponent, TextareaComponent, SelectComponent],
+  imports: [FormsModule, ReactiveFormsModule, CardComponent, PanelComponent, InputComponent, ButtonComponent, TableComponent, DialogComponent,
+    TextareaComponent, SelectComponent, SwitchComponent],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
 })
@@ -36,19 +38,9 @@ export class CategoryComponent implements OnInit {
   totalSubcategory: number = 0;
   table!: PmTableConfig;
 
-  categories2: any[] = [
-    {
-      id: 1,
-      label: 'Bebidas'
-    },
-    {
-      id: 2,
-      label: 'Salgadinhos'
-    }
-  ]
-
   mockData = [
     {
+      id: 1,
       name: 'Bebidas',
       type: 'Principal',
       primaryCategory: '',
@@ -59,6 +51,7 @@ export class CategoryComponent implements OnInit {
       categoryColor: '#3b82f6'
     },
     {
+      id: 2,
       name: 'Sprite',
       type: 'Subcategoria',
       primaryCategory: 'Bebidas',
@@ -97,7 +90,9 @@ export class CategoryComponent implements OnInit {
 
     this.categoryForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      description: ['']
+      description: [''],
+      category: [],
+      active: []
     });
 
     this.listCategories();

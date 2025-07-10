@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, Input, OnInit } from '@angular/core';
-import { ControlContainer } from '@angular/forms';
+import { Component, input, OnInit, Optional, Self } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
@@ -17,10 +17,7 @@ import { LucideAngularModule } from 'lucide-angular';
     ]),
   ],
 })
-export class SelectComponent implements OnInit {
-  @Input() controlName!: string;
-
-  readonly controlContainer = inject(ControlContainer, { optional: true });
+export class SelectComponent implements OnInit, ControlValueAccessor {
   readonly class = input<string>();
   readonly label = input<string>();
   readonly icon = input<string>();
@@ -29,14 +26,69 @@ export class SelectComponent implements OnInit {
   readonly placeholder = input<string>('Digite aqui...');
 
   readonly filter = input<boolean>(true);
+
   readonly options = input<any[]>([]);
 
   readonly optionLabel = input<string>('label');
-  readonly optionValue = input<string>('value');
+  readonly optionValue = input<string>('id');
+  readonly optionColor = input<string>('');
 
+  selectedOption: any;
   openSelect: boolean = false;
 
+  filterText: string = '';
+  filteredOptions: any[] = [];
+
+  onChange = (_: any) => {};
+  onTouched = () => {};
+
+  disabled = false;
+
+  constructor(@Optional() @Self() public ngControl: NgControl) {
+    if (this.ngControl)
+      this.ngControl.valueAccessor = this;
+  }
+
   ngOnInit(): void {
+    this.openSelect = false;
+    this.filteredOptions = this.options();
+  }
+
+  onFilterChange(event: Event) {
+    const value = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filterText = value;
+    this.filteredOptions = this.options().filter(option =>
+      option[this.optionLabel()].toLowerCase().includes(value)
+    );
+  }
+
+  resetFilter() {
+    this.filterText = '';
+    this.filteredOptions = this.options();
+  }
+
+  writeValue(value: any): void {
+    this.selectedOption = this.options().find(
+      opt => opt[this.optionValue()] === value
+    );
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  selectOption(option: any) {
+    this.selectedOption = option;
+    this.onChange(option[this.optionValue()]);
+    this.onTouched();
     this.openSelect = false;
   }
 }

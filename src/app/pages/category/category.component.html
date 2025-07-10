@@ -178,7 +178,8 @@
   </ng-template>
 </p-dialog> -->
 
-<pm-panel title="Categorias" subTitle="Organize seus produtos em categorias e subcategorias" [headerPanel]="true" class="mx-4">
+<pm-panel title="Categorias" subTitle="Organize seus produtos em categorias e subcategorias" [headerPanel]="true"
+  class="mx-4">
   <ng-template #actionButton>
     <pm-button label="Nova Categoria" icon="plus" (onClick)="showDialogRegister()" />
   </ng-template>
@@ -195,7 +196,7 @@
   <div class="flex flex-col sm:flex-row gap-4">
     <pm-input placeholder="Buscar categorias..." class="flex-1" icon="search" />
     <div class="flex gap-2">
-      <pm-button outlined label="Todas" [selected]="statusFilter === 'all'" (onClick)="setStatusFilter('all')"/>
+      <pm-button outlined label="Todas" [selected]="statusFilter === 'all'" (onClick)="setStatusFilter('all')" />
       <pm-button outlined label="Ativas" type="outlined" (onClick)="setStatusFilter('active')" />
       <pm-button outlined label="Inativas" type="outlined" (onClick)="setStatusFilter('inactive')" />
     </div>
@@ -206,18 +207,44 @@
   <pm-table [configTable]="table" />
 </pm-panel>
 
-<pm-dialog icon="tags" title="Nova Categoria" subTitle="Crie uma nova categoria ou subcategoria" [(visible)]="categoryDialog">
+<pm-dialog icon="tags" title="Nova Categoria" subTitle="Crie uma nova categoria ou subcategoria"
+  [(visible)]="categoryDialog">
   <form [formGroup]="categoryForm">
     <div class="grid grid-cols-2 gap-6">
       <pm-card title="Informações Básicas" titleColor="text-primary-400">
         <div class="grid gap-3">
-          <pm-input label="Nome da Categoria" placeholder="Ex: Eletrônicos" controlName="name"/>
-          <pm-textarea label="Descrição" placeholder="Descreva a categoria..." controlName="description" />
-          <pm-select label="Nome da Categoria" placeholder="Categorias" controlName="name" [options]="categories2" optionLabel="label" optionValue="id"/>
+          <pm-input label="Nome da Categoria" placeholder="Ex: Eletrônicos" formControlName="name" />
+          <pm-textarea label="Descrição" placeholder="Descreva a categoria..." formControlName="description" />
+          <pm-select label="Nome da Categoria" placeholder="Categorias" formControlName="category" [options]="mockData"
+            optionLabel="name" optionValue="id" optionColor="categoryColor"
+            helpText="Se selecionada, esta será uma subcategoria" />
         </div>
       </pm-card>
       <pm-card title="Configurações" titleColor="text-primary-400">
-        Sim e vc?
+        <div class="grid gap-6">
+          <pm-select label="Cor da Categoria" placeholder="Categorias" formControlName="category" [options]="mockData"
+            optionLabel="name" optionValue="id" optionColor="categoryColor" />
+          <div class="space-y-2 flex flex-row items-center justify-between rounded-lg border border-green-800/20 p-4">
+            <div class="space-y-0.5"><label
+                class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-base"
+                for="_r_1c_-form-item">Status da Categoria</label>
+              <p class="text-[0.8rem] text-muted-foreground" id="_r_1c_-form-item-description">Categoria ativa estará
+                disponível para uso</p>
+            </div>
+            <pm-switch formControlName="active" />
+            <input aria-hidden="true" tabindex="-1" type="checkbox" value="on" checked=""
+              style="transform: translateX(-100%); position: absolute; pointer-events: none; opacity: 0; margin: 0px; width: 44px; height: 24px;">
+          </div>
+          <div class="bg-green-900/10 p-4 rounded-lg border border-green-800/20">
+            <h4 class="font-medium text-green-400 mb-2">Preview</h4>
+            <div class="flex items-center gap-3">
+              <div class="w-4 h-4 rounded-full bg-red-400"></div>  <!-- [ngStyle]="{ backgroundColor: categoryForm.get('name')?.value }" -->
+              <div>
+                <div class="font-medium">{{ categoryForm.get('name')?.value }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </pm-card>
     </div>
   </form>

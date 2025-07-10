@@ -1,35 +1,33 @@
-@if(controlName && controlContainer){
-	<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pb-2">{{ label() }} {{controlContainer.control!.get(controlName)?.invalid ? "*" : "" }}</label>
-	<div class="flex-1" [ngClass]="class()">
-		<div class="relative">
-			@if(icon()){
-				<lucide-angular [name]="icon()" [ngClass]="iconColor()" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ml-[-5px]" />
-			}
-			<input [ngClass]="{ 'pl-10': icon(), 'mt-2': label() }"
-				class="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-primary-400
-								focus:outline-primary-400 focus:outline-2 focus:outline-color-primary-400
-								placeholder:text-muted-foreground focus-visible:outline-offset-2 focus-visible:outline-primary-600!
-								disabled:cursor-not-allowed disabled:opacity-50 bg-background/50 border-primary-800/20 focus:border-primary-600"
-				[placeholder]="placeholder()" />
-		</div>
-	</div>
-} @else {
-	<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pb-2">{{ label() }}</label>
-	<div class="flex-1" [ngClass]="class()">
-		<div class="relative">
-			@if(icon()){
-				<lucide-angular [name]="icon()" [ngClass]="iconColor()" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ml-[-5px]" />
-			}
-			<input [ngClass]="{ 'pl-10': icon(), 'mt-2': label() }"
-				class="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-primary-400
-								focus:outline-primary-400 focus:outline-2 focus:outline-color-primary-400
-								placeholder:text-muted-foreground focus-visible:outline-offset-2 focus-visible:outline-primary-600!
-								disabled:cursor-not-allowed disabled:opacity-50 bg-background/50 border-primary-800/20 focus:border-primary-600"
-				[placeholder]="placeholder()" />
-		</div>
-	</div>
+@if(label()){
+  <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pb-2">
+    {{ label() }}
+    @if(ngControl?.invalid && ngControl?.touched){
+      <span>*</span>
+    }
+  </label>
 }
 
+<div class="flex-1" [ngClass]="class()">
+  <div class="relative">
+    @if(icon()){
+      <lucide-angular [name]="icon()" [ngClass]="iconColor()" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ml-[-5px]" />
+    }
+    <input
+      [disabled]="disabled"
+      [ngClass]="{ 'pl-10': icon(), 'mt-2': label() }"
+      class="flex h-10 w-full rounded-md border px-3 py-2 text-sm
+             focus-visible:ring-primary-400 focus:outline-primary-400
+             focus:outline-2 focus:outline-color-primary-400
+             placeholder:text-muted-foreground focus-visible:outline-offset-2
+             focus-visible:outline-primary-600! disabled:cursor-not-allowed
+             disabled:opacity-50 bg-background/50 border-primary-800/20 focus:border-primary-600"
+      [placeholder]="placeholder()"
+      [value]="value"
+      (input)="onInput($event)"
+    />
+  </div>
+</div>
+
 @if(helpText()){
-	<p class="text-xs text-muted-foreground mt-1">{{ helpText() }}</p>
+  <p class="text-xs text-muted-foreground mt-1">{{ helpText() }}</p>
 }

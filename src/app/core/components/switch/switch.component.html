@@ -1,0 +1,27 @@
+<button
+  type="button"
+  role="switch"
+  [attr.aria-checked]="isChecked"
+  [attr.data-state]="isChecked ? 'checked' : 'unchecked'"
+  [disabled]="disabled"
+  (click)="toggle()"
+  class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent
+         transition-colors duration-300 ease-in-out
+         focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+         focus-visible:ring-offset-background
+         disabled:cursor-not-allowed disabled:opacity-50
+         bg-input
+         data-[state=checked]:bg-green-600
+         data-[state=unchecked]:bg-[#27272a]
+         disabled:data-[state=checked]:bg-green-800
+         disabled:data-[state=unchecked]:bg-neutral-600"
+>
+  <span
+    [attr.data-state]="isChecked ? 'checked' : 'unchecked'"
+    class="pointer-events-none block h-5 w-5 rounded-full bg-[#0a0a0a] shadow-md ring-0
+           transition-transform duration-300 ease-in-out
+           data-[state=checked]:translate-x-5
+           data-[state=unchecked]:translate-x-0
+           disabled:bg-gray-700"
+  ></span>
+</button>
