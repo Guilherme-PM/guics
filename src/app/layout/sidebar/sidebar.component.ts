@@ -1,24 +1,22 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
-import { Drawer, DrawerModule } from 'primeng/drawer';
-import { Ripple } from 'primeng/ripple';
-import { StyleClass } from 'primeng/styleclass';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'private-sidebar',
-  imports: [DrawerModule, ButtonModule, AvatarModule, RouterModule, CommonModule],
+  imports: [ButtonModule, AvatarModule, RouterModule, CommonModule, LucideAngularModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
 export class PrivateSidebarComponent {
-  @ViewChild('drawerRef') drawerRef!: Drawer;
   openMenus: boolean = true;
   user: any;
-  visible: boolean = false;
+  @Input() visible: boolean = false;
+  @Output() visibleChange = new EventEmitter<boolean>();
 
   constructor(private authSvc: AuthService, private router: Router) { }
 
@@ -26,12 +24,9 @@ export class PrivateSidebarComponent {
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
   }
 
-  closeCallback(e: any): void {
-    this.drawerRef.close(e);
-  }
-
-  closeDrawer() {
+  closeSidebar(): void {
     this.visible = false;
+    this.visibleChange.emit(this.visible);
   }
 
   logout(){

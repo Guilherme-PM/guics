@@ -9,5 +9,11 @@ import { LucideAngularModule } from 'lucide-angular';
   styleUrl: './header.component.scss'
 })
 export class PrivateHeaderComponent {
+  sidebarOpen: boolean = false;
 
+  toggleSidebar(sidebarOpen: boolean) {
+    this.sidebarOpen = sidebarOpen;
+
+    console.log(this.sidebarOpen)
+  }
 }

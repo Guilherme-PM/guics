@@ -222,8 +222,79 @@
       </pm-card>
       <pm-card title="Configurações" titleColor="text-primary-400">
         <div class="grid gap-6">
-          <pm-select label="Cor da Categoria" placeholder="Categorias" formControlName="category" [options]="mockData"
+          <pm-select label="Cor da Categoria [Em Breve]" placeholder="Categorias" formControlName="category" [options]="mockData"
             optionLabel="name" optionValue="id" optionColor="categoryColor" />
+          <!-- <div data-side="bottom" data-align="start" data-state="open" role="dialog" id="radix-_r_11_"
+            class="z-50 rounded-md border bg-popover text-popover-foreground shadow-md outline-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 w-64 p-4"
+            tabindex="-1"
+            style="pointer-events: auto; --radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);">
+            <div class="space-y-4">
+              <div><label
+                  class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium mb-2 block">Cores
+                  Predefinidas</label>
+                <div class="grid grid-cols-8 gap-2"><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-primary scale-110"
+                    title="#3B82F6" style="background-color: rgb(59, 130, 246);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#10B981" style="background-color: rgb(16, 185, 129);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#8B5CF6" style="background-color: rgb(139, 92, 246);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#F59E0B" style="background-color: rgb(245, 158, 11);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#EF4444" style="background-color: rgb(239, 68, 68);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#EC4899" style="background-color: rgb(236, 72, 153);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#6366F1" style="background-color: rgb(99, 102, 241);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#F97316" style="background-color: rgb(249, 115, 22);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#14B8A6" style="background-color: rgb(20, 184, 166);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#6B7280" style="background-color: rgb(107, 114, 128);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#84CC16" style="background-color: rgb(132, 204, 22);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#F43F5E" style="background-color: rgb(244, 63, 94);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#8B5A2B" style="background-color: rgb(139, 90, 43);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#059669" style="background-color: rgb(5, 150, 105);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#7C3AED" style="background-color: rgb(124, 58, 237);"></button><button type="button"
+                    class="w-6 h-6 rounded-full border-2 transition-all hover:scale-110 border-border hover:border-primary/50"
+                    title="#DC2626" style="background-color: rgb(220, 38, 38);"></button></div>
+              </div>
+              <div class="space-y-2"><label
+                  class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium flex items-center gap-2"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-pipette w-3 h-3">
+                    <path d="m2 22 1-1h3l9-9"></path>
+                    <path d="M3 21v-3l9-9"></path>
+                    <path
+                      d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3l.4.4Z">
+                    </path>
+                  </svg>Cor Personalizada</label>
+                <div class="flex gap-2"><input class="w-10 h-10 rounded border border-border cursor-pointer"
+                    type="color" value="#3B82F6"><input
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 font-mono text-sm"
+                    placeholder="#000000" maxlength="7" value="#3B82F6"></div>
+              </div>
+              <div class="bg-muted p-3 rounded-lg"><label
+                  class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium mb-2 block">Preview</label>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full border border-border" style="background-color: rgb(59, 130, 246);">
+                  </div>
+                  <div>
+                    <div class="font-mono text-sm font-medium">#3B82F6</div>
+                    <div class="text-xs text-muted-foreground">Cor selecionada</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
           <div class="space-y-2 flex flex-row items-center justify-between rounded-lg border border-green-800/20 p-4">
             <div class="space-y-0.5"><label
                 class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-base"
@@ -232,13 +303,13 @@
                 disponível para uso</p>
             </div>
             <pm-switch formControlName="active" />
-            <input aria-hidden="true" tabindex="-1" type="checkbox" value="on" checked=""
-              style="transform: translateX(-100%); position: absolute; pointer-events: none; opacity: 0; margin: 0px; width: 44px; height: 24px;">
+
           </div>
           <div class="bg-green-900/10 p-4 rounded-lg border border-green-800/20">
             <h4 class="font-medium text-green-400 mb-2">Preview</h4>
             <div class="flex items-center gap-3">
-              <div class="w-4 h-4 rounded-full bg-red-400"></div>  <!-- [ngStyle]="{ backgroundColor: categoryForm.get('name')?.value }" -->
+              <div class="w-4 h-4 rounded-full bg-red-400"></div>
+              <!-- [ngStyle]="{ backgroundColor: categoryForm.get('name')?.value }" -->
               <div>
                 <div class="font-medium">{{ categoryForm.get('name')?.value }}</div>
               </div>
