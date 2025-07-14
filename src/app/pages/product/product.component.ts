@@ -1,20 +1,28 @@
-import { ChangeDetectorRef, Component, inject, PLATFORM_ID } from '@angular/core';
-import { ImportsModule } from '../../imports/imports';
+import { ChangeDetectorRef, Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { ProductUpdateDTO } from '../../models/product/product-update-dto';
 import { ProductListDTO } from '../../models/product/product-list-dto';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SubcategoryListDTO } from '../../models/subcategory/subcategory-list-dto';
 import { ProductService } from '../../services/product/product.service';
 import { MessageService } from 'primeng/api';
 import { PrimeNG } from 'primeng/config';
 import { SubcategoryService } from '../../services/subcategory/subcategory.service';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { PaginatorDTO } from '../../models/paginator/paginator-dto';
 import { PaginatedResultDTO } from '../../models/paginator/paginated-result-dto';
+import { PanelComponent } from '../../core/components/panel/panel.component';
+import { ButtonComponent } from '../../core/components/button/button.component';
+import { CardComponent } from '../../core/components/card/card.component';
+import { TableComponent } from '../../core/components/table/table.component';
+import { InputComponent } from '../../core/components/input/input.component';
+import { SelectComponent } from '../../core/components/select/select.component';
+import { PmTableConfig } from '../../core/components/table/models/pm-table-config';
 
 @Component({
   selector: 'app-product',
-  imports: [ImportsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, PanelComponent, ButtonComponent, CardComponent, TableComponent, InputComponent,
+    SelectComponent
+  ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
@@ -37,6 +45,48 @@ export class ProductComponent {
   dataChart!: any;
   optionsChart!: any;
   platformId = inject(PLATFORM_ID);
+  totalProducts: number = 0;
+  table!: PmTableConfig;
+  mockData1 = [
+    {
+      id: 1,
+      name: 'Bebidas'
+    },
+    {
+      id: 2,
+      name: 'Alimentos'
+    }
+  ];
+
+  mockData2 = [
+    {
+      id: 1,
+      name: 'Ativo'
+    },
+    {
+      id: 2,
+      name: 'Inativo'
+    }
+  ];
+
+  mockData = [
+    {
+      name: 'Coca Cola KS 290ml',
+      supplier: 'Distribuidora da Coca Cola',
+      sku: 'SAMS24-128',
+      barcode: '7891234567890',
+      category: 'Bebidas',
+      subcategory: 'Refrigerantes',
+      sellingPrice: 5.99,
+      costPrice: 3.50,
+      margin: 2.49,
+      stock: 45,
+      minStock: 10,
+      maxStock: 80,
+      ncm: '85171231',
+      status: 1
+    }
+  ];
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -58,6 +108,53 @@ export class ProductComponent {
   }
 
   ngOnInit() {
+    this.table = PmTableConfig.create({
+      name: 'category-table',
+      columns: [
+        { id: 'name', label: 'Produto', type: 'text',
+          dualText: {
+            title: 'name',
+            subTitle: 'supplier'
+          }
+         },
+        { id: 'sku', label: 'SKU', type: 'text', copy: true, code: true,
+          tag: {
+            class: 'bg-[#0c1b12] border-none rounded-none'
+          }
+         },
+        { id: 'barcode', label: 'Código de Barras', type: 'text', copy: true, icon: 'barcode', code: true },
+        { id: 'category', label: 'Categoria', type: 'numeric',
+          dualText: {
+            title: 'category',
+            subTitle: 'subcategory',
+            class: {
+              title: 'text-white',
+              subtitle: 'text-red-400'
+            }
+          }
+         },
+        { id: 'sellingPrice', label: 'Preços' },
+        { id: 'stock', label: 'Estoque', type: 'numeric' },
+        { id: 'ncm', label: 'NCM', type: 'text', code: true,
+          tag: {
+            class: 'bg-[#0e1625] border-none rounded-none'
+          }
+         },
+        { id: 'status', label: 'Status', 
+          tag: { 
+            text: (product: any) => product.status === 1 ? 'Ativo' : 'Inativo',
+            styleFunc: (product: any) => 
+              { 
+                return product.status === 1 ? 'bg-green-600 text-green-50 border-none' : 'bg-zinc-900 text-green-50 border-none' } 
+              } 
+            }
+      ],
+      buttons: [
+        { title: 'Ações', icon: 'ellipsis' }
+      ],
+      data: this.mockData,
+    });
+
     this.listProducts();
   }
 

@@ -12,6 +12,7 @@ export class ButtonComponent {
   label = input<string>('Clique');
   selected = input<boolean>(false);
   icon = input<string>();
+  styleClass = input<string>();
 
   private _text = false;
   private _outlined = false;

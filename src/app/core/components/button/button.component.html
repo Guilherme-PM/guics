@@ -1,6 +1,7 @@
 @if(!text && outlined){
-	<button [ngClass]="{ 'bg-primary-600 text-primary-foreground': selected() }" class="h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium
-							cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+	<button [ngClass]="[ selected() ? 'bg-primary-600 text-primary-foreground' : '',
+											 styleClass() ? styleClass() : '']" class="h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md 
+							text-sm font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
 							disabled:pointer-events-none disabled:opacity-50 focus:bg-primary-600 focus:text-primary-foreground hover:bg-neutral-800
 							border border-input border-neutral-800" (click)="onButtonClick()">
 		@if(icon()){

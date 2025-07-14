@@ -1,4 +1,5 @@
-<label *ngIf="label()" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pb-2">
+<label *ngIf="label()"
+  class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pb-2">
   {{ label() }}
   <span *ngIf="ngControl?.invalid && ngControl?.touched">*</span>
 </label>
@@ -8,23 +9,27 @@
       class="flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-primary-400
                   focus:outline-primary-400 focus:outline-2 focus:outline-color-primary-400
                   placeholder:text-muted-foreground focus-visible:outline-offset-2 focus-visible:outline-primary-600!
-                  disabled:cursor-not-allowed disabled:opacity-50 bg-background/50 border-primary-800/20 focus:border-primary-600">@if(selectedOption && optionColor()){<div class="w-4 h-4 rounded-full mr-2" [ngStyle]="{backgroundColor: selectedOption[optionColor()]}"></div>}{{ selectedOption ? selectedOption[optionLabel()] : placeholder()}}</button>
-    <lucide-angular [name]="'chevron-up'" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4"/>
+                  disabled:cursor-not-allowed disabled:opacity-50 bg-background/50 border-primary-800/20 focus:border-primary-600">@if(selectedOption && optionColor()){<div class="w-4 h-4 rounded-full mr-2"
+        [ngStyle]="{backgroundColor: selectedOption[optionColor()]}"></div>}{{ selectedOption ?
+      selectedOption[optionLabel()] : placeholder()}}</button>
+    <lucide-angular [name]="'chevron-up'" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4" />
     @if(openSelect){
     <div class="mt-2 absolute w-full rounded-lg border bg-[#090909] border-primary-800/20 p-1 shadow-lg"
       style="transform-origin: center top; border-radius: 12px; will-change: auto;">
       <div class="py-2 relative">
         @if(filter()){
-        <lucide-angular name="search" class="absolute left-4 top-3  w-4 ml-[-5px]" />
-        <input [ngClass]="{ 'mt-2': label() }" class="focus pl-8 flex h-10 rounded-md border text-sm w-[90%] mx-3 pl-3
-            placeholder:text-muted-foreground bg-background/50 border-primary-800/20"
-          placeholder="Buscar categorias..." (input)="onFilterChange($event)" />
-        <div class="mx-5 my-2.5 border-t border-primary-800/10"></div>
+        <div class="relative w-full">
+          <lucide-angular name="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 text-muted-foreground" />
+          <input [ngClass]="{ 'mt-2': label() }" class="pl-8 flex h-10 rounded-md border text-sm w-[90%] mx-3
+           placeholder:text-muted-foreground bg-background/50 border-primary-800/20" placeholder="Buscar categorias..."
+            (input)="onFilterChange($event)" />
+        </div>
         }
         @for(option of filteredOptions; track option){
         <button (click)="selectOption(option)"
           class="hover:bg-[#0f0f0f] relative flex w-full items-center px-4 py-2.5 text-sm rounded-md transition-colors duration-150 focus:outline-none text-neutral-400">
-          @if(optionColor()){<div class="w-4 h-4 rounded-full mr-2" [ngStyle]="{backgroundColor: option[optionColor()]}"></div>}{{ option[optionLabel()] }}
+          @if(optionColor()){<div class="w-4 h-4 rounded-full mr-2"
+            [ngStyle]="{backgroundColor: option[optionColor()]}"></div>}{{ option[optionLabel()] }}
         </button>
         }
       </div>
@@ -33,5 +38,5 @@
   </div>
 </div>
 @if(helpText()){
-  <p class="text-[0.8rem] text-muted-foreground mt-1">{{ helpText() }}</p>
+<p class="text-[0.8rem] text-muted-foreground mt-1">{{ helpText() }}</p>
 }

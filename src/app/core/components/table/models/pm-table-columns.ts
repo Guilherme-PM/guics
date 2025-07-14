@@ -5,15 +5,26 @@ export class PmTableColumnsConfig {
   // Propriedade para definir o nome que será exibido do item
   public label: string;
 
+  // Propriedade para definir o tipo de texto exibido
   public type?: 'text' | 'numeric' | 'boolean' | 'date' | 'datetime' = 'text';
 
+  // Propriedade para dicionar um sufixo ao texto exibido
   public suffix?: string = '';
 
   public badgeColorHEX?: string;
 
-  public tag?: { color?: string, style?: string, styleFunc?: (item: any) => string , backgroundColor?: string, borderColor?: string, iconColor?: string, icon?: (item: any) => string | string };
+  public tag?: { text?: (item: any) => string, style?: string, styleFunc?: (item: any) => string , class?: string, iconColor?: string, icon?: (item: any) => string };
 
-  public dualTextColor?: { title: string, subTitle: string, colorHEX: string };
+  public dualText?: { title: string, subTitle: string, colorHEX?: string, class?: { title?: string, subtitle?: string } };
+
+  // Propriedade para transformar o resultado exibido em outro texto
+  public replaceText?: (item: any) => string;
+
+  public copy?: boolean;
+
+  public icon?: string;
+
+  public code?: boolean;
 
   constructor(config?: Partial<PmTableColumnsConfig>) {
     this.id = config?.id ?? '';
@@ -21,9 +32,6 @@ export class PmTableColumnsConfig {
 
     if(config?.tag){
       this.tag = {
-        color: config.tag.color ?? 'white',
-        backgroundColor: config.tag.backgroundColor ?? 'transparent',
-        borderColor: config.tag.borderColor ?? 'text-zinc-800',
         iconColor: config.tag.iconColor ?? 'text-zinc-800'
       };
     }

@@ -8,7 +8,7 @@ import { errorInterceptor } from './core/interceptors/error/error.interceptor';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 import { GuicsTheme } from '../theme/GuicsTheme';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ChevronDown, ChevronUp, Ellipsis, Folder, FolderOpen, Home, LucideAngularModule, Plus, Search, Table2, Tags, User, X } from 'lucide-angular';
+import { Barcode, ChevronDown, ChevronUp, Copy, Ellipsis, Folder, FolderOpen, Home, LucideAngularModule, Package, PanelLeft, Plus, Search, Tags, TrendingUp, TriangleAlert, Upload, User, Warehouse, X } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +21,9 @@ export const appConfig: ApplicationConfig = {
         preset: GuicsTheme,
       }
     }),
-    importProvidersFrom(LucideAngularModule.pick({ Home, User, Tags, Folder, FolderOpen, Search, Ellipsis, Table2, X, Plus, ChevronUp, ChevronDown })),
+    importProvidersFrom(LucideAngularModule.pick({ Home, User, Tags, Folder, FolderOpen, Search, Ellipsis, PanelLeft, X, Plus, ChevronUp, ChevronDown,
+      Upload, Warehouse, Package, TrendingUp, TriangleAlert, Copy, Barcode
+     })),
     MessageService,
     ConfirmationService
   ]

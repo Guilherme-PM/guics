@@ -74,7 +74,7 @@ export class CategoryComponent implements OnInit {
     this.table = PmTableConfig.create({
       name: 'category-table',
       columns: [
-        { id: 'name', label: 'Categoria', type: 'text', dualTextColor: { title: 'name', subTitle: 'categorySubTitle', colorHEX: 'categoryColor' } },
+        { id: 'name', label: 'Categoria', type: 'text', dualText: { title: 'name', subTitle: 'categorySubTitle', colorHEX: 'categoryColor' } },
         { id: 'type', label: 'Tipo', type: 'text', tag: { style: 'border-neutral-600', iconColor: 'text-neutral-600', icon: (category: any) => { return category.type === 'Principal' ? 'folder' : 'tags' } } },
         { id: 'primaryCategory', label: 'Categoria Pai', type: 'text', badgeColorHEX: 'primaryCategoryColor' },
         { id: 'productsCount', label: 'Produtos', type: 'numeric', suffix: ' produtos', tag: { style: 'bg-green-900/80 text-green-400 border-none' } },

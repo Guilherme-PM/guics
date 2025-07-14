@@ -1,4 +1,4 @@
-<p-toolbar styleClass="mb-12">
+<!-- <p-toolbar styleClass="mb-12">
   <ng-template #start>
     <p-button label="Nova" icon="pi pi-plus" class="mr-2" (click)="showDialogRegister()" />
     <p-button severity="danger" label="Deletar" icon="pi pi-trash" outlined (click)="deleteSelectedProducts()"
@@ -85,13 +85,6 @@
           <p-sortIcon field="status" />
         </div>
       </th>
-      <!-- <th style="width: 3rem" pSortableColumn="available">
-        <div class="flex items-center">
-          Disponível
-          <p-columnFilter type="boolean" field="available" display="menu" />
-          <p-sortIcon field="available" />
-        </div>
-      </th> -->
     </tr>
   </ng-template>
   <ng-template #body let-product let-editing="editing" let-ri="rowIndex">
@@ -382,4 +375,36 @@
       </form>
     </p-stepper>
   </ng-template>
-</p-dialog>
+</p-dialog> -->
+
+<pm-panel title="Produtos" subTitle="Gerencie seu catálogo de produtos" [headerPanel]="true"
+  class="mx-4">
+  <ng-template #actionButton>
+    <div class="space-x-2">
+      <pm-button outlined label="Importar/Exportar" icon="upload" (onClick)="showDialogRegister()" styleClass="text-primary-400 border-primary-400 focus:text-white hover:text-white hover:bg-primary-400/30"/>
+      <pm-button outlined label="Gerenciar Estoque" icon="warehouse" (onClick)="showDialogRegister()" styleClass="text-primary-400 border-primary-400 focus:text-white hover:text-white hover:bg-primary-400/30"/>
+      <pm-button label="Nova Produto" icon="plus" (onClick)="showDialogRegister()" />
+    </div>
+  </ng-template>
+</pm-panel>
+
+<div class="grid grid-cols-4 gap-4 mx-4 mt-4">
+  <pm-card title="Total de Produtos" content="5" subContent="produtos cadastrados" icon="package" />
+  <pm-card title="Produtos Ativos" content="4" subContent="disponíveis para venda" icon="trending-up" />
+  <pm-card title="Estoque Baixo" content="2" subContent="produtos com estoque baixo" icon="triangle-alert" iconColor="text-red-400" contentColor="text-red-400" />
+  <pm-card title="Categorias" content="4" subContent="categorias diferentes" icon="tags" />
+</div>
+
+<pm-panel title="Filtros" subTitle="Filtre e busque produtos" class="mx-4">
+  <div class="grid grid-cols-3 gap-4">
+    <pm-input placeholder="Buscar por nome, SKU ou código de barras..." icon="search" class="col-span-2"/>
+    <div class="grid grid-cols-2 gap-4">
+      <pm-select placeholder="Todas as Categorias" [options]="mockData1" optionLabel="name" optionValue="id"/>
+      <pm-select placeholder="Todos os Status" [options]="mockData2" optionLabel="name" optionValue="id"/>
+    </div>
+  </div>
+</pm-panel>
+
+<pm-panel title="Lista de Produtos" [subTitle]="totalProducts + ' produtos encontradas'" class="mx-4">
+  <pm-table [configTable]="table" />
+</pm-panel>

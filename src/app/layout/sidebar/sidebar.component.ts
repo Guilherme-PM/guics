@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -19,6 +19,21 @@ export class PrivateSidebarComponent {
   @Output() visibleChange = new EventEmitter<boolean>();
 
   constructor(private authSvc: AuthService, private router: Router) { }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: KeyboardEvent) {
+    event.preventDefault();
+    this.closeSidebar();
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key.toLowerCase() === 'e') {
+      event.preventDefault();
+      this.visible = !this.visible;
+      this.visibleChange.emit(this.visible);
+    }
+  }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
